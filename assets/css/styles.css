@@ -601,6 +601,24 @@ h4{font-size:15px;font-weight:700}
   color:var(--slate);
 }
 
+.footer-legal{
+  margin-top:var(--md);
+  font-size:13px;
+  color:var(--slate);
+}
+
+/* The licence scope sits under the copyright line rather than beside it —
+   the two claims aren't equivalent, and running them together reads as if
+   the whole repository were reserved. */
+.footer-legal-sub{
+  display:block;
+  margin-top:var(--xs);
+  font-size:12px;
+  color:#8794A9;
+}
+.footer-legal-sub a{color:var(--teal-deep);text-decoration:underline;text-underline-offset:2px}
+.footer-legal-sub a:hover{color:var(--navy)}
+
 /* ---------------------------------------------------------------- 17. prose (privacy page) */
 .page-head{padding-top:var(--xxl);padding-bottom:var(--lg)}
 .page-head h1{font-size:clamp(30px,4.4vw,44px);margin-bottom:12px}
