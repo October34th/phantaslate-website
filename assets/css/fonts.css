@@ -1,0 +1,174 @@
+/* =====================================================================
+   Phantaslate — phantaslate.com
+   assets/css/fonts.css
+
+   Fonts are self-hosted. Nothing on this site requests a file from a
+   third party at page load — no Google Fonts, no CDN, no font service.
+
+   Why that matters here specifically
+   ---------------------------------
+   fonts.googleapis.com and fonts.gstatic.com are unreachable from
+   mainland China. Phantaslate is built CJKV-first, so a font dependency
+   that hangs until timeout for a large share of the intended audience is
+   not an acceptable default. Serving fonts from our own origin means
+   they load with the page or fail with it — never separately.
+   ===================================================================== */
+
+/* --------------------------------------------------- Plus Jakarta Sans */
+@font-face{
+  font-family:'Plus Jakarta Sans';
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:local('Plus Jakarta Sans Bold'),
+      url('../fonts/plus-jakarta-sans-700.woff2') format('woff2');
+}
+
+@font-face{
+  font-family:'Plus Jakarta Sans';
+  font-style:normal;
+  font-weight:800;
+  font-display:swap;
+  src:local('Plus Jakarta Sans ExtraBold'),
+      url('../fonts/plus-jakarta-sans-800.woff2') format('woff2');
+}
+
+/* =====================================================================
+   DM Sans, plus Vietnamese
+
+   'DM Sans' below resolves to TWO different font files depending on the
+   character being drawn, both under the one family name. This is a
+   standard technique, not a hack: several @font-face rules can share a
+   font-family, each scoped to a unicode-range, and the browser picks
+   whichever rule's range contains the character it's about to draw.
+
+   Why this exists: DM Sans has no Vietnamese glyphs published by Google,
+   on any weight, at any subset — confirmed against the family's own
+   language list, not assumed. Vietnamese stacks a tone mark on an
+   already-modified vowel (e with circumflex and acute, for example),
+   and those precomposed codepoints simply were never drawn for this
+   typeface.
+
+   The fix is Be Vietnam Pro's Vietnamese-only glyphs, loaded under the
+   'DM Sans' name and restricted with unicode-range to exactly the block
+   DM Sans is missing. Everywhere else in the CSS still just says
+   font-family: var(--body) — nothing about how a component is styled
+   needs to know or care that two files are involved.
+
+   ---------------------------------------------------------------------
+   A note on file size
+   ---------------------------------------------------------------------
+   The be-vietnam-pro-*.woff2 files are latin+vietnamese cuts, because
+   google-webfonts-helper merges selected subsets into one file per
+   weight — there's no way to get vietnamese on its own from it. So each
+   file carries a full Latin alphabet this site will never draw from it,
+   costing roughly 19KB of the 27KB.
+
+   unicode-range still does its job: the Latin glyphs inside are never
+   USED, because the range below doesn't claim any Latin codepoints. The
+   waste is download weight, not rendering ambiguity.
+
+   Worth revisiting if page weight ever becomes a real constraint — a
+   proper vietnamese-only subset via pyftsubset or fonttools would cut
+   both files to well under 10KB. Not worth the build step today.
+   ===================================================================== */
+
+@font-face{
+  font-family:'DM Sans';
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url('../fonts/be-vietnam-pro-400.woff2') format('woff2');
+  unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,
+                U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,
+                U+0329,U+1EA0-1EF9,U+20AB;
+}
+
+@font-face{
+  font-family:'DM Sans';
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+  src:url('../fonts/be-vietnam-pro-500.woff2') format('woff2');
+  unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,
+                U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,
+                U+0329,U+1EA0-1EF9,U+20AB;
+}
+
+/* The general-purpose faces. No unicode-range means "everything the two
+   rules above didn't already claim" — so these MUST come after the
+   Vietnamese-scoped rules above, not before. Same family name, same
+   weights, so nothing calling font-family: var(--body) changes at all. */
+@font-face{
+  font-family:'DM Sans';
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:local('DM Sans Regular'),
+      url('../fonts/dm-sans-400.woff2') format('woff2');
+}
+
+@font-face{
+  font-family:'DM Sans';
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+  src:local('DM Sans Medium'),
+      url('../fonts/dm-sans-500.woff2') format('woff2');
+}
+
+/* =====================================================================
+   CJKV rendering
+
+   Latin typefaces contain no CJK glyphs, so the browser falls back
+   per-character for Chinese, Japanese and Korean text. Left to its own
+   devices it often picks badly.
+
+   Worse, Han unification means Chinese and Japanese share codepoints
+   while rendering those characters differently. A single font-family
+   list cannot tell them apart. The language has to be declared, and
+   then matched with :lang().
+
+   Which is why CJKV text in the markup carries a lang attribute, and
+   why demo.js sets lang on the panel's two text areas as the selected
+   languages change. Vietnamese no longer needs this treatment — the
+   unicode-range rules above select the right glyph per character
+   automatically, without depending on an ancestor's lang attribute.
+   lang="vi" stays in the markup regardless, for screen readers.
+   ===================================================================== */
+
+:root{
+  --cjk-sc:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC","WenQuanYi Micro Hei";
+  --cjk-tc:"PingFang TC","Hiragino Sans CNS","Microsoft JhengHei","Noto Sans CJK TC","Source Han Sans TC";
+  --cjk-jp:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo","Noto Sans CJK JP","Source Han Sans JP";
+  --cjk-kr:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans CJK KR","Source Han Sans KR","Nanum Gothic";
+}
+
+:lang(zh-Hans),:lang(zh-CN),:lang(zh){font-family:var(--body),var(--cjk-sc),sans-serif}
+:lang(zh-Hant),:lang(zh-TW),:lang(zh-HK){font-family:var(--body),var(--cjk-tc),sans-serif}
+:lang(ja){font-family:var(--body),var(--cjk-jp),sans-serif}
+:lang(ko){font-family:var(--body),var(--cjk-kr),sans-serif}
+
+/* CJK glyphs sit taller in their em box than Latin ones, so the same
+   line-height reads cramped. Vietnamese uses ordinary Latin metrics and
+   doesn't need this. */
+:lang(zh-Hans),:lang(zh-Hant),:lang(ja),:lang(ko){line-height:1.75}
+
+/* Where the language genuinely isn't known — the demo input before
+   anything is typed — accept any CJK face rather than let the browser
+   guess from a Latin-only list. */
+.cjk-any{
+  font-family:var(--body),var(--cjk-sc),var(--cjk-jp),var(--cjk-kr),sans-serif;
+}
+
+/* =====================================================================
+   Plus Jakarta Sans and Vietnamese — a separate, smaller note
+
+   The display face doesn't get the unicode-range treatment above,
+   because it doesn't need it: Plus Jakarta Sans has a real, Google-
+   published Vietnamese subset of its own. If this site ever sets
+   Vietnamese text in a heading, re-cut plus-jakarta-sans-700/800.woff2
+   with vietnamese ticked at gwfh.mranftl.com and replace the two files
+   — no splicing required, because the gap this file works around
+   doesn't exist for that family.
+   ===================================================================== */

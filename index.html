@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0D2045">
+
+<title>Phantaslate — Translate Without a Trail</title>
+<meta name="description" content="A stateless translator. Your words pass through and nothing is stored, logged, or turned into a profile. Free, open-source browser extension built for CJKV.">
+
+<link rel="canonical" href="https://phantaslate.com/">
+
+<meta property="og:title" content="Phantaslate — Translate Without a Trail">
+<meta property="og:description" content="A stateless translator. Your words pass through. Nothing else does.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://phantaslate.com/">
+<meta property="og:image" content="https://phantaslate.com/assets/img/introduction.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/favicon/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon/icon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon/icon-128.png">
+<link rel="manifest" href="site.webmanifest">
+
+
+<link rel="preload" href="assets/fonts/plus-jakarta-sans-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/dm-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="brand" href="/" aria-label="Phantaslate home">
+      <picture>
+        <source srcset="assets/img/mark-96.webp" type="image/webp">
+        <img src="assets/img/mark-96.png" alt="" width="30" height="30" decoding="async">
+      </picture>
+      <span class="wordmark">Phanta<i>slate</i></span>
+    </a>
+
+    <nav class="site-nav" aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="#languages">Languages</a>
+      <a href="#open">Open source</a>
+      <a class="btn btn-primary" href="#extension">Add to Chrome</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ================================================================= HERO -->
+  <div class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <h1>Translate<em>without a trail</em></h1>
+
+        <p class="lede">Your words pass through. Nothing else does. No history, no account, and no record that you were ever here.</p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="#extension">Add to Chrome — free</a>
+          <a class="btn btn-outline btn-lg" href="https://github.com/October34th/phantaslate">Read the code</a>
+        </div>
+
+        <p class="hero-note">Free forever · open source · nothing to sign up for</p>
+      </div>
+
+      <!-- Try-it panel. See DEMO_MODE at the top of assets/js/demo.js for
+           how translation requests are currently handled. -->
+      <div class="panel" id="demo">
+
+        <div class="panel-bar">
+          <label class="bar-label" for="from">From</label>
+          <select class="lang-select" id="from" aria-label="Source language"></select>
+
+          <button class="swap" id="swap" type="button" aria-label="Swap languages">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 4 3 8l4 4"/><path d="M3 8h13"/><path d="m17 20 4-4-4-4"/><path d="M21 16H8"/>
+            </svg>
+          </button>
+
+          <label class="bar-label" for="to">To</label>
+          <select class="lang-select" id="to" aria-label="Target language"></select>
+
+          <span class="cap-pill">Try it — 500 characters</span>
+        </div>
+
+        <div class="panes" id="panes">
+          <div class="pane pane-source">
+            <label class="pane-label" for="source">Your text</label>
+            <textarea id="source" class="cjk-any" rows="4" maxlength="500" placeholder="Type or paste text to translate…"></textarea>
+            <div class="pane-foot">
+              <button class="linkbtn" id="clear" type="button" hidden>Clear</button>
+              <span class="push" id="count">0 / 500</span>
+            </div>
+          </div>
+
+          <div class="trail" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+
+          <div class="pane pane-target">
+            <p class="pane-label">Translation</p>
+            <div id="output" class="cjk-any" data-empty="Your translation appears here." aria-live="polite"></div>
+            <div class="pane-foot">
+              <span id="detected"></span>
+              <button class="linkbtn push" id="copy" type="button" hidden>Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-foot">
+          <p class="status" id="status" data-state="idle">
+            <span class="dot"></span><span id="status-text">Nothing stored · nothing logged</span>
+          </p>
+          <button id="translate" type="button">Translate</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================ TRUST -->
+  <ul class="shell trust">
+    <li>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M12 12c-2 2.5-3.5 3.5-5.5 3.5a3.5 3.5 0 0 1 0-7C8.5 8.5 10 9.5 12 12s3.5 3.5 5.5 3.5a3.5 3.5 0 0 0 0-7c-2 0-3.5 1-5.5 3.5Z"/>
+      </svg>
+      Free forever
+    </li>
+    <li>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 6h10"/><path d="M4 12h7"/><path d="M4 18h4"/><path d="M16 12h4"/>
+      </svg>
+      Stateless by design
+    </li>
+    <li>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m9 18-6-6 6-6"/><path d="m15 6 6 6-6 6"/>
+      </svg>
+      Open source
+    </li>
+  </ul>
+
+  <!-- ========================================================= HOW IT WORKS -->
+  <section class="band" id="how">
+    <div class="shell">
+      <div class="section-head">
+        <p class="eyebrow">How it works</p>
+        <h2>Paste. Translate. Gone.</h2>
+        <p class="muted">Three steps, and the third one is the point. Here is exactly what happens to your text on the way through.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <p class="step-mark">STEP ONE</p>
+          <h3>You submit text</h3>
+          <p>Only what you type or paste is sent. Pages you are simply reading are never scanned or transmitted.</p>
+        </div>
+        <div class="step">
+          <p class="step-mark">STEP TWO</p>
+          <h3>The relay passes it through</h3>
+          <p>Your text is held in memory for the length of the request and forwarded to a translation model. Nothing is written to disk, to a database, or to a log.</p>
+        </div>
+        <div class="step">
+          <p class="step-mark">STEP THREE</p>
+          <h3>The translation returns</h3>
+          <p>You get your result and the request ends. There is no history to open and nothing to delete, because there is nothing there.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================== WHY -->
+  <section class="band band-white" id="why">
+    <div class="shell why-grid">
+      <div>
+        <p class="eyebrow">Why stateless</p>
+        <h2>Nothing stays. That's the point.</h2>
+
+        <p class="lede mt-md">Most translators keep what you translate. That is a design decision rather than a technical requirement, and it has consequences: anything stored can be read by whoever runs the service, exposed in a breach, or handed over on request.</p>
+
+        <p class="lede">Phantaslate removes the storage instead of promising to guard it. There is no archive to search, no history to export, and nothing to disclose.</p>
+
+        <p class="lede">Producing a translation does mean your text reaches a machine-translation provider, and once it does, that provider's own practices apply. We say so plainly rather than leave it out. Everything on our side of that boundary is set out in full in the privacy policy.</p>
+
+        <p class="mt-lg">
+          <a class="btn btn-outline" href="privacy.html">Read the privacy policy</a>
+        </p>
+      </div>
+
+      <div class="absent">
+        <h3>What Phantaslate doesn't have</h3>
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            A translation history
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            Saved phrases or a synced library
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            Analytics, trackers, or advertising
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            A profile built from what you translate
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            Application logs of your text
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ EXTENSION -->
+  <section class="band band-navy" id="extension">
+    <div class="shell ext-grid">
+      <div>
+        <p class="eyebrow">The browser extension</p>
+        <h2>Translate anywhere you read</h2>
+        <p class="lede">A panel you can drag where you want it, on any page, without leaving the tab you're in. It stays open while you work and remembers its position and size.</p>
+
+        <div class="ext-claims">
+          <span class="claim">Free forever, no account, ever</span>
+          <span class="claim">Chrome and Chromium browsers</span>
+          <span class="claim">5,000 characters per translation</span>
+          <span class="claim">Self-hostable relay</span>
+        </div>
+
+        <div class="ext-actions">
+          <a class="btn btn-primary btn-lg" href="#">Add to Chrome</a>
+          <a class="btn btn-onnavy btn-lg" href="https://github.com/October34th/phantaslate">View the source</a>
+        </div>
+      </div>
+
+      <div class="shot">
+        <picture>
+          <source srcset="assets/img/screenshot-translate.webp" type="image/webp">
+          <img src="assets/img/screenshot-translate.png"
+               alt="The Phantaslate panel open beside a web page, translating text with a status line reading 'nothing stored'."
+               width="1280" height="800" loading="lazy" decoding="async">
+        </picture>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ LANGUAGES -->
+  <section class="band" id="languages">
+    <div class="shell lang-grid">
+      <div>
+        <p class="eyebrow">Made for CJKV</p>
+        <h2>Nine languages, done properly</h2>
+
+        <p class="lede mt-md">Chinese in both scripts, Japanese, Korean and Vietnamese are treated as first-class rather than as afterthoughts — including translating directly between them instead of pivoting through English.</p>
+
+        <p class="lede">If your text isn't in the language you selected, Phantaslate notices, tells you, and offers to switch.</p>
+
+        <ul class="lang-chips">
+          <li class="chip"><b lang="en">English</b> <code>en</code></li>
+          <li class="chip"><b lang="zh-Hans">简体中文</b> <span>Chinese (Simplified)</span> <code>zh-Hans</code></li>
+          <li class="chip"><b lang="zh-Hant">繁體中文</b> <span>Chinese (Traditional)</span> <code>zh-Hant</code></li>
+          <li class="chip"><b lang="ja">日本語</b> <span>Japanese</span> <code>ja</code></li>
+          <li class="chip"><b lang="ko">한국어</b> <span>Korean</span> <code>ko</code></li>
+          <li class="chip"><b lang="vi">Tiếng Việt</b> <span>Vietnamese</span> <code>vi</code></li>
+          <li class="chip"><b lang="es">Español</b> <span>Spanish</span> <code>es</code></li>
+          <li class="chip"><b lang="fr">Français</b> <span>French</span> <code>fr</code></li>
+          <li class="chip"><b lang="de">Deutsch</b> <span>German</span> <code>de</code></li>
+        </ul>
+
+        <p class="chip-note">Plus auto-detect. Russian and Arabic, with right-to-left rendering, are candidates for a later release.</p>
+      </div>
+
+      <div class="shot shot-light">
+        <picture>
+          <source srcset="assets/img/screenshot-cjkv.webp" type="image/webp">
+          <img src="assets/img/screenshot-cjkv.png"
+               alt="Phantaslate translating Japanese directly into Traditional Chinese, with Korean and Vietnamese pairs shown alongside."
+               width="1280" height="800" loading="lazy" decoding="async">
+        </picture>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================== OPEN SOURCE -->
+  <section class="band band-white" id="open">
+    <div class="shell open-grid">
+      <div>
+        <p class="eyebrow">Built in the open</p>
+        <h2>Don't take our word for it</h2>
+
+        <p class="lede mt-md">Every claim on this page can be checked against the code, including the relay that handles your text. The hosted relay runs the same code published in the repository — that's the point of publishing it. If something here doesn't match what the source does, open an issue.</p>
+
+        <p class="mt-lg">
+          <a class="btn btn-outline" href="https://github.com/October34th/phantaslate">github.com/October34th/phantaslate</a>
+        </p>
+      </div>
+
+      <ul class="repo">
+        <li><span>extension</span><span>Manifest V3</span></li>
+        <li><span>relay</span><span>FastAPI · stateless</span></li>
+        <li><span>database</span><span>none</span></li>
+        <li><span>content logging</span><span>disabled</span></li>
+        <li><span>self-hosting</span><span>supported</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ PLATFORMS -->
+  <section class="band" id="platforms">
+    <div class="shell">
+      <div class="section-head mb-0">
+        <p class="eyebrow">On the way</p>
+        <h2>The same architecture, on more of your devices</h2>
+        <p class="muted mt-sm">The extension is the first of a family of Phantaslate apps. Each one keeps the same promise about what happens to your words.</p>
+
+        <ul class="platform-list">
+          <li class="platform">Android</li>
+          <li class="platform">iOS</li>
+          <li class="platform">Windows</li>
+          <li class="platform">macOS</li>
+          <li class="platform">Linux</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="/" aria-label="Phantaslate home">
+          <picture>
+        <source srcset="assets/img/mark-96.webp" type="image/webp">
+        <img src="assets/img/mark-96.png" alt="" width="30" height="30" decoding="async">
+      </picture>
+          <span class="wordmark">Phanta<i>slate</i></span>
+        </a>
+        <p class="small muted mt-xs">Translate Without a Trail</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#how">How it works</a>
+        <a href="#languages">Languages</a>
+        <a href="privacy.html">Privacy policy</a>
+        <a href="https://github.com/October34th/phantaslate">GitHub</a>
+        <a href="mailto:cdxyu@tuta.com">Contact</a>
+      </nav>
+    </div>
+
+    <div class="footer-base">
+      <span>Stateless by design. Private by architecture.</span>
+      <span>No analytics on this site.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/demo.js"></script>
+</body>
+</html>

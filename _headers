@@ -1,0 +1,35 @@
+# =====================================================================
+# Cloudflare Pages — response headers
+#
+# Read by Cloudflare Pages at deploy time. Has no effect when opening
+# the files locally over file:// — that is expected.
+# =====================================================================
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self' https://api.phantaslate.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none'
+
+# Notes on the policy above:
+#
+#   Everything is 'self'. The site makes no third-party request of any
+#   kind — no font CDN, no analytics, no embedded media. If a future
+#   change needs an external origin, that is worth a deliberate decision
+#   rather than a quiet widening of this line.
+#
+#   'unsafe-inline' is absent from BOTH script-src and style-src. Keep
+#   all JavaScript in assets/js/ and all styling in assets/css/. An
+#   inline <script> or a style="" attribute will work perfectly on your
+#   machine and be blocked in production — an easy way to ship something
+#   silently broken.
+#
+#   connect-src already permits api.phantaslate.com, so the try-it panel
+#   will work the moment DEMO_MODE is switched off in assets/js/demo.js.
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

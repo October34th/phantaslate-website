@@ -1,0 +1,14 @@
+{
+  "name": "Phantaslate",
+  "short_name": "Phantaslate",
+  "description": "Translate Without a Trail — a stateless translator.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F7FA",
+  "theme_color": "#0D2045",
+  "icons": [
+    { "src": "/assets/favicon/icon-48.png",  "sizes": "48x48",   "type": "image/png" },
+    { "src": "/assets/favicon/icon-128.png", "sizes": "128x128", "type": "image/png" },
+    { "src": "/assets/img/phantaslate-icon.png", "sizes": "799x799", "type": "image/png", "purpose": "any" }
+  ]
+}

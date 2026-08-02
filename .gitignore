@@ -1,0 +1,22 @@
+# Font subsetting backups — created by tools/subset-fonts.py.
+# Superseded duplicates of files already in assets/fonts/. Committing
+# them would deploy ~55KB that nothing on the site references.
+*.woff2.original
+
+# Python
+__pycache__/
+*.pyc
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Local server / build scratch
+.cache/
+node_modules/

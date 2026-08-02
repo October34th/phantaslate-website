@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0D2045">
+
+<title>Privacy Policy — Phantaslate</title>
+<meta name="description" content="Exactly what happens to your data when you use Phantaslate. No accounts, no history, no logging — and a plain statement of what we don't control.">
+
+<link rel="canonical" href="https://phantaslate.com/privacy.html">
+
+<meta property="og:title" content="Privacy Policy — Phantaslate">
+<meta property="og:description" content="Exactly what happens to your data when you use Phantaslate.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://phantaslate.com/privacy.html">
+
+<link rel="icon" href="assets/favicon/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon/icon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon/icon-128.png">
+<link rel="manifest" href="site.webmanifest">
+
+
+<link rel="preload" href="assets/fonts/plus-jakarta-sans-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/dm-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="brand" href="index.html" aria-label="Phantaslate home">
+      <picture>
+        <source srcset="assets/img/mark-96.webp" type="image/webp">
+        <img src="assets/img/mark-96.png" alt="" width="30" height="30" decoding="async">
+      </picture>
+      <span class="wordmark">Phanta<i>slate</i></span>
+    </a>
+
+    <nav class="site-nav" aria-label="Main">
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#languages">Languages</a>
+      <a href="index.html#open">Open source</a>
+      <a class="btn btn-primary" href="index.html#extension">Add to Chrome</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="shell page-head">
+    <p class="eyebrow">Privacy policy</p>
+    <h1>What happens to your data</h1>
+    <p class="muted small">
+      Effective 31 July 2026 · Applies to the Phantaslate browser extension for Chrome and Chromium-based browsers
+    </p>
+  </div>
+
+  <div class="shell">
+    <div class="prose">
+
+      <div class="summary-card">
+        <h3 class="mt-0">Summary</h3>
+        <p>Phantaslate is a translation tool built on a stateless relay. Text you submit is passed through for translation and is not stored, logged, or associated with you.</p>
+        <ul class="bullets">
+          <li>No account is required, and none exists.</li>
+          <li>No translation history is kept — not on your device, not on our server.</li>
+          <li>No advertising, no analytics, no tracking, no profiling.</li>
+          <li>The text you submit is sent to a machine-translation provider in order to translate it. This is disclosed in full below.</li>
+          <li>The extension is free and open source. The claims on this page can be verified by reading the code.</li>
+        </ul>
+        <p>This document describes exactly what happens to your data. If anything here is unclear or appears to contradict the source code, please open an issue on GitHub.</p>
+      </div>
+
+      <nav class="toc" aria-label="Contents">
+        <h2>Contents</h2>
+        <ol>
+          <li><a href="#s1">What Phantaslate does not collect</a></li>
+          <li><a href="#s2">What is transmitted, and to whom</a></li>
+          <li><a href="#s3">Abuse prevention</a></li>
+          <li><a href="#s4">Data stored on your device</a></li>
+          <li><a href="#s5">Permissions and why they are needed</a></li>
+          <li><a href="#s6">Data retention</a></li>
+          <li><a href="#s7">Your rights</a></li>
+          <li><a href="#s8">Children</a></li>
+          <li><a href="#s9">Verification and changes</a></li>
+          <li><a href="#s10">Contact</a></li>
+        </ol>
+      </nav>
+
+      <h2 id="s1">1. What Phantaslate does not collect</h2>
+      <p>Phantaslate does not collect, request, or store:</p>
+      <ul class="bullets">
+        <li>Names, email addresses, or any account identifiers</li>
+        <li>Passwords or authentication credentials</li>
+        <li>Payment or financial information</li>
+        <li>Browsing history or the list of pages you visit</li>
+        <li>Clicks, scrolling, keystrokes, mouse position, or other behavioural telemetry</li>
+        <li>Device fingerprints</li>
+        <li>Health, biometric, or demographic information</li>
+      </ul>
+      <p>There is no analytics SDK, no advertising SDK, and no third-party tracking script in the extension.</p>
+
+      <h2 id="s2">2. What is transmitted, and to whom</h2>
+      <p>Phantaslate only transmits text that <strong>you</strong> explicitly submit for translation — by typing or pasting it into the panel and pressing Translate. Text on a page you are merely viewing is never read or transmitted.</p>
+      <p>When you press Translate, the following happens:</p>
+      <ul class="bullets">
+        <li>Your submitted text, along with your chosen source and target languages, is sent over HTTPS to the Phantaslate relay at <code>api.phantaslate.com</code>.</li>
+        <li>The relay forwards that text to <strong>DeepSeek</strong>, a third-party machine-translation provider, in order to produce the translation.</li>
+        <li>The translation is returned through the relay to your browser and displayed in the panel.</li>
+        <li>The relay holds the text only in memory for the duration of the request. Once the response is returned, it is gone. Nothing is written to disk, to a database, or to a log.</li>
+      </ul>
+
+      <h3>The DeepSeek disclosure</h3>
+      <div class="callout">
+        <p>The relay is stateless, but it is not a translation engine on its own. Producing a translation requires sending your text to DeepSeek's API. <strong>Once your text reaches DeepSeek, it is subject to DeepSeek's own data handling practices, which Phantaslate does not control and cannot make guarantees about.</strong></p>
+      </div>
+      <p>We state this plainly because a privacy promise that quietly omits it would not be worth much. What Phantaslate controls is everything on its own side of that boundary: no retention, no logging, no linkage between your text and any identifier.</p>
+      <p>Please review DeepSeek's own privacy documentation if this matters to your use case. If you handle text that must never reach a third-party API, Phantaslate — like every hosted translation service — is not the right tool for it.</p>
+
+      <h3>Other infrastructure providers</h3>
+      <ul class="bullets">
+        <li><strong>Render</strong> hosts the relay. As with any hosting provider, Render may generate transient operational and network-level logs as part of running the service. Phantaslate does not create, request, or retain application logs of translation content.</li>
+        <li><strong>Cloudflare</strong> provides DNS resolution for the <code>phantaslate.com</code> domain. The <code>api</code> subdomain is configured as DNS-only, meaning Cloudflare resolves the address but does not proxy or inspect the traffic itself.</li>
+      </ul>
+
+      <h2 id="s3">3. Abuse prevention</h2>
+      <p>To keep a free, account-free service usable, Phantaslate applies a daily usage cap — a baseline of 20,000 characters per day, which may be reduced during periods of high demand or cost pressure.</p>
+      <p>Enforcing a limit without accounts requires some way to distinguish one user from another. Phantaslate does this in the least identifying way we could design:</p>
+      <ul class="bullets">
+        <li>Your IP address is combined with a rotating salt and hashed. The resulting hash is used as a short-lived counter key. <strong>The raw IP address is not stored</strong>, and because the salt rotates, hashes cannot be correlated across time periods.</li>
+        <li>A short-lived, randomly generated install token accompanies requests from your browser. It is not tied to your identity and carries no personal information.</li>
+      </ul>
+      <p>These values exist solely to count usage against a cap. They are not used to build a profile, are not linked to translation content, and are not shared.</p>
+      <p>Because an IP address is processed — even momentarily, and even in hashed form — we disclose "Location" in the Chrome Web Store data usage form. We would rather over-disclose than have a technically true claim mislead you.</p>
+
+      <h2 id="s4">4. Data stored on your device</h2>
+      <p>Phantaslate stores a small number of preferences locally using <code>chrome.storage.local</code>. These never leave your browser and are never sent to the relay:</p>
+      <table>
+        <thead>
+          <tr><th>Stored value</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Panel position and size</td><td>Keeps the panel where you left it</td></tr>
+          <tr><td>Relay URL</td><td>Allows you to point the extension at a different relay</td></tr>
+          <tr><td>"Remember last used languages" preference</td><td>Opt-in only; off by default</td></tr>
+          <tr><td>Last used language pair</td><td>Stored <strong>only</strong> if you enable the option above</td></tr>
+        </tbody>
+      </table>
+      <p>Translation text and results are never written to storage. Closing the panel clears its contents.</p>
+      <p>You can remove all locally stored data at any time by uninstalling the extension, or by clearing the extension's storage from your browser's settings.</p>
+
+      <h2 id="s5">5. Permissions and why they are needed</h2>
+      <table>
+        <thead>
+          <tr><th>Permission</th><th>Why it is required</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>activeTab</code></td><td>Opens and focuses the panel on the page you are currently viewing when you click the extension icon</td></tr>
+          <tr><td><code>scripting</code></td><td>Injects the translation panel into the page so you can translate without leaving it</td></tr>
+          <tr><td><code>storage</code></td><td>Saves the local preferences listed in section 4</td></tr>
+          <tr><td><code>clipboardWrite</code></td><td>Powers the panel's Copy button, on click only</td></tr>
+          <tr><td>Host permission — page access</td><td>Required to display the panel on the pages you visit</td></tr>
+          <tr><td>Host permission — <code>api.phantaslate.com</code></td><td>Required to send submitted text to the relay and receive the translation</td></tr>
+        </tbody>
+      </table>
+      <p>No permission is used for any purpose beyond the one stated above.</p>
+
+      <h2 id="s6">6. Data retention</h2>
+      <table>
+        <thead>
+          <tr><th>Data</th><th>Retention</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Submitted text</td><td>Held in memory for the duration of the request only</td></tr>
+          <tr><td>Translation results</td><td>Not retained by the relay</td></tr>
+          <tr><td>Usage counters (salted hashes)</td><td>Short-lived; expire with the rate-limit window and salt rotation</td></tr>
+          <tr><td>Local preferences</td><td>Kept on your device until you clear or uninstall</td></tr>
+        </tbody>
+      </table>
+      <p>Phantaslate has no database of user content. There is no archive to search, no history to export, and nothing to hand over in response to a request — because nothing is kept.</p>
+
+      <h2 id="s7">7. Your rights</h2>
+      <p>Because Phantaslate does not hold personal data associated with you, there is nothing to access, correct, export, or delete on our side. There is no account to close.</p>
+      <p>If you are in a jurisdiction with data protection rights such as the GDPR or CCPA and believe personal data of yours has nonetheless been processed, you are welcome to contact us using the details in section 10.</p>
+      <p>Phantaslate does not sell personal information, and does not share it for cross-context behavioural advertising.</p>
+
+      <h2 id="s8">8. Children</h2>
+      <p>Phantaslate is not directed at children and does not knowingly collect information from them. Since no personal information is collected from anyone, this holds generally.</p>
+
+      <h2 id="s9">9. Verification and changes</h2>
+      <p>Phantaslate is open source. Every claim in this document can be checked against the source code, including the relay:</p>
+      <p><a class="textlink" href="https://github.com/October34th/phantaslate">github.com/October34th/phantaslate</a></p>
+      <p>If this policy changes, the revised version will be published at the same URL with an updated effective date, and material changes will be noted in the repository's release notes. Continued use of the extension after a change indicates acceptance of the revised policy.</p>
+
+      <h2 id="s10">10. Contact</h2>
+      <p>Questions, corrections, or concerns about this policy:</p>
+      <ul class="bullets">
+        <li>GitHub issues: <a class="textlink" href="https://github.com/October34th/phantaslate/issues">github.com/October34th/phantaslate/issues</a></li>
+        <li>Email: <a class="textlink" href="mailto:cdxyu@tuta.com">cdxyu@tuta.com</a></li>
+      </ul>
+
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="index.html" aria-label="Phantaslate home">
+          <picture>
+        <source srcset="assets/img/mark-96.webp" type="image/webp">
+        <img src="assets/img/mark-96.png" alt="" width="30" height="30" decoding="async">
+      </picture>
+          <span class="wordmark">Phanta<i>slate</i></span>
+        </a>
+        <p class="small muted mt-xs">Translate Without a Trail</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="index.html#how">How it works</a>
+        <a href="index.html#languages">Languages</a>
+        <a href="privacy.html">Privacy policy</a>
+        <a href="https://github.com/October34th/phantaslate">GitHub</a>
+        <a href="mailto:cdxyu@tuta.com">Contact</a>
+      </nav>
+    </div>
+
+    <div class="footer-base">
+      <span>Stateless by design. Private by architecture.</span>
+      <span>No analytics on this site.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
