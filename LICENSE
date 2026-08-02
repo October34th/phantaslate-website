@@ -1,0 +1,119 @@
+Phantaslate Website — Licence
+=============================
+
+This repository contains two different kinds of material under two
+different terms. Read both sections before reusing anything.
+
+
+-------------------------------------------------------------------
+1. SITE CODE — MIT Licence
+-------------------------------------------------------------------
+
+Applies to the HTML, CSS, JavaScript, configuration and tooling in this
+repository. Specifically:
+
+    index.html, privacy.html, 404.html
+    assets/css/**
+    assets/js/**
+    tools/**
+    _headers, robots.txt, sitemap.xml, site.webmanifest, .gitignore
+
+Copyright (c) 2026 October34th
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+-------------------------------------------------------------------
+2. BRAND ASSETS — All rights reserved
+-------------------------------------------------------------------
+
+The MIT licence above does NOT apply to the Phantaslate brand. The
+following are proprietary and excluded from it:
+
+    assets/img/**          logo, wordmark, icon, screenshots, promotional
+                           images
+    assets/favicon/**      all icon sizes
+
+    The name "Phantaslate"
+    The Phantaslate logo and mark, in any colour or format
+    The wordmark, including the Phanta/slate split treatment
+    The tagline "Translate Without a Trail"
+    The dissolving-trail motif as a brand device
+
+Copyright (c) 2026 October34th. All rights reserved.
+
+These files are published here because a website has to serve its own
+images to work, and because this repository exists so the site's claims
+can be verified against its source. Publication is not permission.
+
+You MAY:
+  - view, inspect and reference these files
+  - reproduce the logo or name when writing or reporting about
+    Phantaslate, in the ordinary way one refers to a product
+  - fork this repository, provided you replace the brand assets with
+    your own before publishing anything derived from it
+
+You MAY NOT:
+  - use the Phantaslate name, logo, wordmark or tagline for your own
+    product, service, site or application
+  - present a modified or forked version in a way that suggests it is
+    Phantaslate, or is endorsed by or affiliated with it
+  - redistribute or sell these assets, alone or as part of a collection
+  - use them in a way likely to cause confusion about origin
+
+If you want to use a brand asset in a way not covered above, ask:
+cdxyu@tuta.com
+
+
+-------------------------------------------------------------------
+3. BUNDLED FONTS — SIL Open Font Licence 1.1
+-------------------------------------------------------------------
+
+The font files in assets/fonts/ are third-party works, licensed by
+their creators under the SIL Open Font Licence, Version 1.1. They are
+covered by neither section 1 nor section 2 above.
+
+    Plus Jakarta Sans     Copyright (c) Tokotype
+    DM Sans               Copyright (c) Colophon Foundry,
+                          Jonny Pinhorn, Indian Type Foundry
+    Be Vietnam Pro        Copyright (c) Be Team
+
+Full licence text: https://openfontlicense.org
+
+Note that the OFL permits use, study, modification and redistribution,
+but prohibits selling the font files on their own, and requires that
+Reserved Font Names not be used on modified versions. The copies in
+assets/fonts/ are subsets — reduced in character coverage, unchanged in
+design — which the OFL permits.
+
+
+-------------------------------------------------------------------
+Notes
+-------------------------------------------------------------------
+
+GitHub's automatic licence detector will likely read this file as MIT
+and label the whole repository accordingly. That label is a convenience,
+not a legal statement. Section 2 governs the brand assets regardless of
+what the sidebar says.
+
+This file was drafted for a small open-source project and is not legal
+advice. If Phantaslate ever needs enforceable trademark protection —
+registration, or defending the name commercially — that is worth a
+conversation with an actual lawyer rather than a text file.

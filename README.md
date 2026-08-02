@@ -239,19 +239,29 @@ page jumping as images load.
 
 ---
 
-## Licence and attribution
+## Licence
 
-The site's HTML, CSS and JavaScript are open source. **The Phantaslate name,
-logo, wordmark and brand assets in `assets/img/` are not** — those remain
-proprietary and shouldn't be reused without permission. Worth stating
-explicitly, since an unqualified MIT licence on this repository would appear
-to give the logo away.
+Two scopes, deliberately split — see [`LICENSE`](LICENSE) for the full text.
 
-Bundled fonts are used under the SIL Open Font Licence 1.1:
+| Material | Terms |
+| --- | --- |
+| HTML, CSS, JS, tooling, config | MIT — take it, fork it, build on it |
+| `assets/img/`, `assets/favicon/`, the name, logo, wordmark, tagline | **All rights reserved** |
+| `assets/fonts/` | SIL Open Font Licence 1.1 (third-party) |
 
-- **Plus Jakarta Sans** — Tokotype
-- **DM Sans** — Colophon Foundry, Jonny Pinhorn, Indian Type Foundry
-- **Be Vietnam Pro** — Be Team
+The brand assets are visible in this repository because a website has to
+serve its own images, and because this repo exists so the site's privacy
+claims can be checked against its source. **Publication is not permission.**
+Fork freely — but replace the branding with your own before publishing
+anything derived from it.
+
+Bundled fonts are used under the OFL and credited to their creators:
+Plus Jakarta Sans (Tokotype), DM Sans (Colophon Foundry, Jonny Pinhorn,
+Indian Type Foundry), Be Vietnam Pro (Be Team).
+
+> GitHub's licence detector will probably label this repository "MIT" in the
+> sidebar. That label is a convenience, not a legal statement — the brand
+> assets are excluded regardless.
 
 ---
 
