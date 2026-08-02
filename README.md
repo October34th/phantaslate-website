@@ -108,30 +108,35 @@ Every push to `main` redeploys.
 
 ---
 
-## No translation happens on this site
+## The demo panel translates nothing
 
-Worth stating plainly, because the hero panel looks like a translator: **it
-isn't one.** It is a static preview of the extension's interface — fixed
-sample text, fixed result, no input field, no button that does anything.
+The hero panel is fully interactive — pick languages, swap them, type,
+clear, copy. Everything that looks clickable is clickable.
 
-The site ships **no JavaScript at all**. There is no `<script>` tag on any
-page, no `fetch`, no relay URL, nothing that could contact
-`api.phantaslate.com` or anywhere else. The `_headers` CSP sets
-`connect-src 'none'` to enforce it — a future change that adds a network
-call has to loosen that line deliberately.
+**It never translates.** Every submission returns the same notice pointing
+at the extension. There is deliberately no phrasebook of canned results: a
+canned result *is* a translation result from the visitor's side, and someone
+who types a word and gets the right answer back has been told this page
+translates, whatever a comment in the source says.
 
-That's the honest position while the relay is scoped for the extension only.
-Its origin check, character cap and abuse handling all assume an extension
-origin and an install token; a public web page has neither. A panel that
-quietly worked here would either fail oddly or cost money unpredictably.
+The notice also renders differently from result text would — smaller, muted,
+teal rule down the left — so the distinction survives someone skim-reading.
 
-If a working web translator is ever wanted, it needs three things first:
+`assets/js/demo.js` contains no `fetch`, no relay URL, and no code path that
+reaches the network. That's not a flag someone could flip by accident; the
+capability isn't in the file. `_headers` backs it with `connect-src 'none'`,
+so restoring a real translator means changing both the script and the CSP on
+purpose.
+
+**Why not just wire it up:** the relay's origin check, character cap and
+abuse handling were built around the extension, which sends a known
+extension origin and carries an install token. A public web page has
+neither. Before this panel could work for real:
 
 - [ ] `phantaslate.com` added to `PHANTASLATE_ORIGINS`
 - [ ] its own character cap, separate from the extension's 20,000/day
 - [ ] its own rate limiting, since there's no install token to key on
-
----
+- [ ] `connect-src` in `_headers` loosened to allow `api.phantaslate.com`
 
 ## Where the site sends people
 

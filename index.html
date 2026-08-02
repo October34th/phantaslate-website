@@ -73,43 +73,56 @@
         <p class="hero-note">Free forever · open source · nothing to sign up for<br><span class="pending">Chrome Web Store listing is on the way</span></p>
       </div>
 
-      <!-- Static preview of the extension panel. Deliberately NOT
-           interactive: no input, no script, no network call. Translation
-           happens in the extension, not on this page. -->
-      <div class="panel is-preview">
+      <!-- Interactive demo panel. Fully usable — type, swap languages,
+           clear, copy — but it never produces a translation and never
+           makes a network request. See assets/js/demo.js. -->
+      <div class="panel" id="demo">
 
         <div class="panel-bar">
-          <span class="bar-label">From</span>
-          <span class="lang-static">Japanese</span>
-          <span class="swap-static" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <label class="bar-label" for="from">From</label>
+          <select class="lang-select" id="from" aria-label="Source language"></select>
+
+          <button class="swap" id="swap" type="button" aria-label="Swap languages">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M7 4 3 8l4 4"/><path d="M3 8h13"/><path d="m17 20 4-4-4-4"/><path d="M21 16H8"/>
             </svg>
-          </span>
-          <span class="bar-label">To</span>
-          <span class="lang-static">English</span>
-          <span class="cap-pill">Preview</span>
+          </button>
+
+          <label class="bar-label" for="to">To</label>
+          <select class="lang-select" id="to" aria-label="Target language"></select>
+
+          <span class="cap-pill">Demo — 500 characters</span>
         </div>
 
-        <div class="panes">
+        <div class="panes" id="panes">
           <div class="pane pane-source">
-            <p class="pane-label">Your text</p>
-            <p class="pane-text" lang="ja">かわいい</p>
+            <label class="pane-label" for="source">Your text</label>
+            <textarea id="source" class="cjk-any" rows="4" maxlength="500" placeholder="Type or paste text to try the panel…"></textarea>
+            <div class="pane-foot">
+              <button class="linkbtn" id="clear" type="button" hidden>Clear</button>
+              <span class="push" id="count">0 / 500</span>
+            </div>
           </div>
 
-          <div class="trail is-static" aria-hidden="true">
+          <div class="trail" aria-hidden="true">
             <span></span><span></span><span></span><span></span><span></span><span></span>
           </div>
 
           <div class="pane pane-target">
             <p class="pane-label">Translation</p>
-            <p class="pane-text" lang="en">Cute</p>
+            <div id="output" class="cjk-any" data-empty="Nothing yet." aria-live="polite"></div>
+            <div class="pane-foot">
+              <span id="detected"></span>
+              <button class="linkbtn push" id="copy" type="button" hidden>Copy</button>
+            </div>
           </div>
         </div>
 
         <div class="panel-foot">
-          <p class="status"><span class="dot"></span>Nothing stored · nothing logged</p>
-          <p class="foot-note">Translation runs in the extension</p>
+          <p class="status" id="status" data-state="idle">
+            <span class="dot"></span><span id="status-text">Demo panel · nothing sent, nothing stored</span>
+          </p>
+          <button id="translate" type="button">Translate</button>
         </div>
 
       </div>
@@ -357,6 +370,8 @@
     </div>
   </div>
 </footer>
+
+<script src="assets/js/demo.js"></script>
 
 </body>
 </html>

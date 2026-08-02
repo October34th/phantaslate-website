@@ -303,41 +303,39 @@ h4{font-size:15px;font-weight:700}
   margin-bottom:var(--sm);
 }
 
-/* The hero panel is a static preview of the extension, not a working
-   translator. No input, no script, no network call — translation happens
-   in the extension. These rules replace the old interactive ones. */
-.pane-text{
+#source{
   flex:1;
+  width:100%;
+  border:0;
+  padding:0;
+  resize:none;
+  background:transparent;
+  font-family:var(--body);
   font-size:15px;
   line-height:1.6;
   color:var(--navy);
+}
+#source::placeholder{color:#A9B4C6}
+#source:focus{outline:none}
+
+#output{
+  flex:1;
+  font-size:15px;
+  line-height:1.6;
+  white-space:pre-wrap;
   overflow-wrap:anywhere;
 }
+#output:empty::before{content:attr(data-empty);color:#A9B4C6}
 
-.lang-static{
-  font-size:13px;
-  color:var(--navy);
-  background:var(--white);
-  border:1px solid var(--line);
-  border-radius:var(--r-sm);
-  padding:7px 12px;
+/* The demo panel never returns a translation, so its output shouldn't
+   look like one. Setting the notice apart from real result text keeps
+   the distinction visible rather than relying on the wording alone. */
+#output.is-notice{
+  font-size:14px;
+  color:var(--slate);
+  border-left:2px solid var(--teal);
+  padding-left:12px;
 }
-
-.swap-static{
-  width:34px;
-  height:34px;
-  display:grid;
-  place-items:center;
-  color:var(--teal-deep);
-  flex-shrink:0;
-}
-.swap-static svg{width:16px;height:16px}
-
-.foot-note{font-size:13px;color:var(--slate)}
-
-/* Marks the hero panel as a non-interactive preview. Nothing inside it
-   responds to clicks, so make sure nothing invites one. */
-.is-preview,.is-preview *{cursor:default;user-select:none}
 
 .pending{color:var(--teal-deep)}
 
@@ -368,6 +366,7 @@ h4{font-size:15px;font-weight:700}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);flex-shrink:0}
 .status[data-state="error"] .dot{background:var(--alert)}
 .status[data-state="error"]{color:var(--alert)}
+.status[data-state="notice"]{color:var(--teal-deep)}
 
 #translate{
   background:var(--navy);
@@ -401,13 +400,8 @@ h4{font-size:15px;font-weight:700}
 }
 .trail span{display:block;width:10px;height:3px;border-radius:2px;background:var(--teal)}
 
-.trail.is-static{opacity:1}
-.trail.is-static span:nth-child(1){opacity:1}
-.trail.is-static span:nth-child(2){opacity:.8}
-.trail.is-static span:nth-child(3){opacity:.6}
-.trail.is-static span:nth-child(4){opacity:.45}
-.trail.is-static span:nth-child(5){opacity:.3}
-.trail.is-static span:nth-child(6){opacity:.15}
+.panes.is-working .trail{opacity:1}
+.panes.is-working .trail span{animation:drift .95s ease-in-out infinite}
 .trail span:nth-child(1){animation-delay:0s}
 .trail span:nth-child(2){animation-delay:.08s}
 .trail span:nth-child(3){animation-delay:.16s}

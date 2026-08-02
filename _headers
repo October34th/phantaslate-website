@@ -25,10 +25,10 @@
 #   machine and be blocked in production — an easy way to ship something
 #   silently broken.
 #
-#   connect-src is 'none'. The site ships no JavaScript at all and makes
-#   no network request beyond loading its own assets. If a try-it panel is
-#   ever added back, this line has to change deliberately — which is the
-#   point of setting it this tightly.
+#   connect-src is 'none'. The demo panel is interactive but has no
+#   network path — assets/js/demo.js contains no fetch at all. This header
+#   is the second lock: wiring the panel to the relay means changing the
+#   script AND this line, both on purpose.
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
