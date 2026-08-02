@@ -10,7 +10,7 @@
   X-Frame-Options: DENY
   Referrer-Policy: no-referrer
   Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
-  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self' https://api.phantaslate.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none'
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'
 
 # Notes on the policy above:
 #
@@ -25,8 +25,10 @@
 #   machine and be blocked in production — an easy way to ship something
 #   silently broken.
 #
-#   connect-src already permits api.phantaslate.com, so the try-it panel
-#   will work the moment DEMO_MODE is switched off in assets/js/demo.js.
+#   connect-src is 'none'. The site ships no JavaScript at all and makes
+#   no network request beyond loading its own assets. If a try-it panel is
+#   ever added back, this line has to change deliberately — which is the
+#   point of setting it this tightly.
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable

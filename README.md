@@ -108,32 +108,51 @@ Every push to `main` redeploys.
 
 ---
 
-## The try-it panel
+## No translation happens on this site
 
-`assets/js/demo.js` opens with a `DEMO_MODE` constant.
+Worth stating plainly, because the hero panel looks like a translator: **it
+isn't one.** It is a static preview of the extension's interface — fixed
+sample text, fixed result, no input field, no button that does anything.
 
-**It ships as `true`.** The panel makes no network request at all — a
-nine-entry phrasebook returns canned results so the page is fully browsable,
-and anything else returns a visible placeholder saying so. It is a stub. It
-does not translate.
+The site ships **no JavaScript at all**. There is no `<script>` tag on any
+page, no `fetch`, no relay URL, nothing that could contact
+`api.phantaslate.com` or anywhere else. The `_headers` CSP sets
+`connect-src 'none'` to enforce it — a future change that adds a network
+call has to loosen that line deliberately.
 
-Setting it to `false` points the panel at `https://api.phantaslate.com/translate`
-using the same request and response shape the extension already uses. That
-code is written and sits directly below the stub.
+That's the honest position while the relay is scoped for the extension only.
+Its origin check, character cap and abuse handling all assume an extension
+origin and an install token; a public web page has neither. A panel that
+quietly worked here would either fail oddly or cost money unpredictably.
 
-**Before flipping it,** the relay needs work that hasn't been done. Its
-current origin check, character cap and abuse handling were all designed
-around the extension, which sends a known extension origin and carries an
-install token. A public web page has neither:
+If a working web translator is ever wanted, it needs three things first:
 
 - [ ] `phantaslate.com` added to `PHANTASLATE_ORIGINS`
 - [ ] its own character cap, separate from the extension's 20,000/day
 - [ ] its own rate limiting, since there's no install token to key on
 
-Until that exists, `DEMO_MODE = true` is the honest option. A panel that
-says it's a demo beats one that quietly fails or quietly costs money.
-
 ---
+
+## Where the site sends people
+
+Every call to action points to GitHub, because the Chrome Web Store listing
+isn't live yet:
+
+| Location | Target |
+| --- | --- |
+| Header button | `#extension` section |
+| Hero primary | GitHub repository |
+| Hero secondary | `#how` section |
+| Extension section primary | GitHub repository |
+| Extension section secondary | GitHub releases page |
+| "Read the code" / "View source" | GitHub repository |
+
+The hero note and a dashed chip in the extension section both say the store
+listing is pending, so the absence reads as *not yet* rather than *missing*.
+
+**When the listing goes live**, replace the two GitHub links in the hero and
+extension sections with the store URL, drop the two "pending" mentions, and
+change the header button back to "Add to Chrome".
 
 ## Typography
 

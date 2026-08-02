@@ -129,9 +129,9 @@
    list cannot tell them apart. The language has to be declared, and
    then matched with :lang().
 
-   Which is why CJKV text in the markup carries a lang attribute, and
-   why demo.js sets lang on the panel's two text areas as the selected
-   languages change. Vietnamese no longer needs this treatment — the
+   Which is why every piece of CJKV text in the markup carries its own
+   lang attribute, including the sample text in the hero preview panel.
+   Vietnamese no longer needs this treatment — the
    unicode-range rules above select the right glyph per character
    automatically, without depending on an ancestor's lang attribute.
    lang="vi" stays in the markup regardless, for screen readers.

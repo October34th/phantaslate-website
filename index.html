@@ -50,7 +50,7 @@
       <a href="privacy.html">Privacy</a>
       <a href="#languages">Languages</a>
       <a href="#open">Open source</a>
-      <a class="btn btn-primary" href="#extension">Add to Chrome</a>
+      <a class="btn btn-primary" href="#extension">Get the extension</a>
     </nav>
   </div>
 </header>
@@ -66,62 +66,50 @@
         <p class="lede">Your words pass through. Nothing else does. No history, no account, and no record that you were ever here.</p>
 
         <div class="hero-actions">
-          <a class="btn btn-primary btn-lg" href="#extension">Add to Chrome — free</a>
-          <a class="btn btn-outline btn-lg" href="https://github.com/October34th/phantaslate">Read the code</a>
+          <a class="btn btn-primary btn-lg" href="https://github.com/October34th/phantaslate">Get it on GitHub</a>
+          <a class="btn btn-outline btn-lg" href="#how">See how it works</a>
         </div>
 
-        <p class="hero-note">Free forever · open source · nothing to sign up for</p>
+        <p class="hero-note">Free forever · open source · nothing to sign up for<br><span class="pending">Chrome Web Store listing is on the way</span></p>
       </div>
 
-      <!-- Try-it panel. See DEMO_MODE at the top of assets/js/demo.js for
-           how translation requests are currently handled. -->
-      <div class="panel" id="demo">
+      <!-- Static preview of the extension panel. Deliberately NOT
+           interactive: no input, no script, no network call. Translation
+           happens in the extension, not on this page. -->
+      <div class="panel is-preview">
 
         <div class="panel-bar">
-          <label class="bar-label" for="from">From</label>
-          <select class="lang-select" id="from" aria-label="Source language"></select>
-
-          <button class="swap" id="swap" type="button" aria-label="Swap languages">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <span class="bar-label">From</span>
+          <span class="lang-static">Japanese</span>
+          <span class="swap-static" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M7 4 3 8l4 4"/><path d="M3 8h13"/><path d="m17 20 4-4-4-4"/><path d="M21 16H8"/>
             </svg>
-          </button>
-
-          <label class="bar-label" for="to">To</label>
-          <select class="lang-select" id="to" aria-label="Target language"></select>
-
-          <span class="cap-pill">Try it — 500 characters</span>
+          </span>
+          <span class="bar-label">To</span>
+          <span class="lang-static">English</span>
+          <span class="cap-pill">Preview</span>
         </div>
 
-        <div class="panes" id="panes">
+        <div class="panes">
           <div class="pane pane-source">
-            <label class="pane-label" for="source">Your text</label>
-            <textarea id="source" class="cjk-any" rows="4" maxlength="500" placeholder="Type or paste text to translate…"></textarea>
-            <div class="pane-foot">
-              <button class="linkbtn" id="clear" type="button" hidden>Clear</button>
-              <span class="push" id="count">0 / 500</span>
-            </div>
+            <p class="pane-label">Your text</p>
+            <p class="pane-text" lang="ja">かわいい</p>
           </div>
 
-          <div class="trail" aria-hidden="true">
+          <div class="trail is-static" aria-hidden="true">
             <span></span><span></span><span></span><span></span><span></span><span></span>
           </div>
 
           <div class="pane pane-target">
             <p class="pane-label">Translation</p>
-            <div id="output" class="cjk-any" data-empty="Your translation appears here." aria-live="polite"></div>
-            <div class="pane-foot">
-              <span id="detected"></span>
-              <button class="linkbtn push" id="copy" type="button" hidden>Copy</button>
-            </div>
+            <p class="pane-text" lang="en">Cute</p>
           </div>
         </div>
 
         <div class="panel-foot">
-          <p class="status" id="status" data-state="idle">
-            <span class="dot"></span><span id="status-text">Nothing stored · nothing logged</span>
-          </p>
-          <button id="translate" type="button">Translate</button>
+          <p class="status"><span class="dot"></span>Nothing stored · nothing logged</p>
+          <p class="foot-note">Translation runs in the extension</p>
         </div>
 
       </div>
@@ -237,12 +225,13 @@
           <span class="claim">Free forever, no account, ever</span>
           <span class="claim">Chrome and Chromium browsers</span>
           <span class="claim">5,000 characters per translation</span>
+          <span class="claim claim-pending">Chrome Web Store listing pending</span>
           <span class="claim">Self-hostable relay</span>
         </div>
 
         <div class="ext-actions">
-          <a class="btn btn-primary btn-lg" href="#">Add to Chrome</a>
-          <a class="btn btn-onnavy btn-lg" href="https://github.com/October34th/phantaslate">View the source</a>
+          <a class="btn btn-primary btn-lg" href="https://github.com/October34th/phantaslate">Install from GitHub</a>
+          <a class="btn btn-onnavy btn-lg" href="https://github.com/October34th/phantaslate/releases">Latest release</a>
         </div>
       </div>
 
@@ -369,6 +358,5 @@
   </div>
 </footer>
 
-<script src="assets/js/demo.js"></script>
 </body>
 </html>
