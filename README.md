@@ -217,6 +217,48 @@ execute anything. Originals are kept as `.woff2.original` and are gitignored.
 
 ---
 
+## Sizing and responsiveness
+
+Everything scales two ways at once.
+
+**With the viewport.** Type and section rhythm use `clamp()`, so they scale
+continuously rather than jumping at breakpoints — a 1000px laptop and a
+1600px monitor each get proportionate spacing instead of sharing one fixed
+value. The `--band-y` and `--gap-major` tokens carry this.
+
+**With the reader's own setting.** All font sizes and spacing are in `rem`,
+anchored to whatever default text size the browser is set to. Someone who
+has bumped their default to 20px gets a site 25% larger throughout, rather
+than being ignored.
+
+> There is deliberately **no** `html{font-size:62.5%}` rule. It's a common
+> trick for making rem maths easier, and it silently overrides the reader's
+> chosen default — which defeats the point of using rem in the first place.
+
+Structural values stay in px on purpose: 1px borders, icon dimensions, the
+pill radius. Those shouldn't grow when someone enlarges their text.
+
+### Breakpoints
+
+| Width | What changes |
+| --- | --- |
+| ≤ 1024px | Hero evens to 50/50; steps go 2-up with the third spanning |
+| ≤ 900px | All two-column grids collapse to one; header nav links hide |
+| ≤ 640px | Demo panes stack; trail hides; buttons go full-width; tables scroll |
+| ≤ 400px | Language selects flex; chips and buttons tighten |
+
+The 400px tier also covers anyone at high browser zoom — zooming produces
+the same narrow effective viewport as a small phone.
+
+### Known gap
+
+Below 900px the header nav links are hidden with no hamburger replacing
+them. The footer nav carries the same links, and the site is a single
+scrolling page, so nothing is unreachable — but it's a real navigation loss
+on phones and worth building properly.
+
+---
+
 ## Images
 
 Screenshots ship as WebP with PNG fallback via `<picture>` — roughly 25–32 KB

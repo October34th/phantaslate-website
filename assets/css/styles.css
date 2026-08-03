@@ -25,18 +25,26 @@
   --teal-wash:#E6F5F3;
   --alert:#C2543F;
 
-  /* spacing — 4px grid */
-  --xs:4px;
-  --sm:8px;
-  --md:16px;
-  --lg:24px;
-  --xl:40px;
-  --xxl:64px;
-  --xxxl:96px;
+  /* Spacing — still a 4px grid, expressed in rem so it scales with the
+     reader's browser font-size setting rather than ignoring it.
+     1rem = 16px at the default setting. */
+  --xs:0.25rem;    /*  4px */
+  --sm:0.5rem;     /*  8px */
+  --md:1rem;       /* 16px */
+  --lg:1.5rem;     /* 24px */
+  --xl:2.5rem;     /* 40px */
+  --xxl:4rem;      /* 64px */
+  --xxxl:6rem;     /* 96px */
+
+  /* Fluid section rhythm. Scales continuously with the viewport instead
+     of jumping at a breakpoint, so a 1000px laptop and a 1600px monitor
+     each get proportionate breathing room. */
+  --band-y:clamp(2.5rem,7vw,6rem);
+  --gap-major:clamp(1.5rem,4vw,2.5rem);
 
   /* radii */
-  --r-sm:8px;
-  --r-md:16px;
+  --r-sm:0.5rem;
+  --r-md:1rem;
   --r-pill:100px;
 
   /* type */
@@ -46,13 +54,16 @@
   --body:'DM Sans','Segoe UI Variable Text','Segoe UI',Roboto,-apple-system,system-ui,sans-serif;
   --mono:ui-monospace,SFMono-Regular,'Cascadia Mono',Menlo,monospace;
 
-  --shell:1120px;
-  --header-h:64px;
+  --shell:70rem;   /* 1120px at default font-size */
+  --header-h:4rem;
 }
 
 /* ---------------------------------------------------------------- 2. reset */
 *,*::before,*::after{box-sizing:border-box}
 
+/* No font-size override here on purpose. Setting html{font-size:62.5%}
+   or similar is a common trick, but it overrides whatever default the
+   reader has chosen in their browser — which defeats using rem at all. */
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + var(--md))}
 
 body{
@@ -60,7 +71,7 @@ body{
   background:var(--page);
   color:var(--navy);
   font-family:var(--body);
-  font-size:15px;
+  font-size:clamp(0.9375rem,0.9rem + 0.2vw,1.0625rem);
   line-height:1.65;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
@@ -84,14 +95,14 @@ h1,h2,h3,h4{
   margin:0;
   line-height:1.12;
 }
-h1{font-size:clamp(34px,5.4vw,56px);font-weight:800}
-h2{font-size:clamp(24px,3.2vw,34px);font-weight:700}
-h3{font-size:17px;font-weight:700}
-h4{font-size:15px;font-weight:700}
+h1{font-size:clamp(2.125rem,1.4rem + 3.6vw,3.5rem);font-weight:800}
+h2{font-size:clamp(1.5rem,1.15rem + 1.75vw,2.125rem);font-weight:700}
+h3{font-size:1.0625rem;font-weight:700}
+h4{font-size:0.9375rem;font-weight:700}
 
 .eyebrow{
   font-family:var(--body);
-  font-size:12px;
+  font-size:0.75rem;
   font-weight:500;
   letter-spacing:0.09em;
   text-transform:uppercase;
@@ -99,16 +110,16 @@ h4{font-size:15px;font-weight:700}
   margin-bottom:var(--sm);
 }
 
-.lede{color:var(--slate);font-size:17px;max-width:58ch}
+.lede{color:var(--slate);font-size:1.0625rem;max-width:58ch}
 .lede + .lede{margin-top:var(--md)}
 
 .muted{color:var(--slate)}
-.small{font-size:13px}
+.small{font-size:0.8125rem}
 
 /* ---------------------------------------------------------------- 4. layout */
 .shell{max-width:var(--shell);margin:0 auto;padding-left:var(--lg);padding-right:var(--lg)}
 
-.band{padding-top:var(--xxxl);padding-bottom:var(--xxxl)}
+.band{padding-top:var(--band-y);padding-bottom:var(--band-y)}
 .band-tight{padding-top:var(--xl);padding-bottom:var(--xl)}
 .band-white{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .band-navy{background:var(--navy);color:var(--white)}
@@ -138,7 +149,7 @@ h4{font-size:15px;font-weight:700}
   justify-content:center;
   gap:var(--sm);
   font-family:var(--body);
-  font-size:14px;
+  font-size:0.875rem;
   font-weight:500;
   line-height:1;
   padding:12px 22px;
@@ -160,7 +171,7 @@ h4{font-size:15px;font-weight:700}
 .btn-onnavy{background:transparent;color:var(--teal);border-color:var(--teal)}
 .btn-onnavy:hover{background:var(--teal);color:var(--navy-deep)}
 
-.btn-lg{padding:15px 28px;font-size:15px}
+.btn-lg{padding:15px 28px;font-size:0.9375rem}
 
 .linkbtn{
   background:none;
@@ -201,31 +212,31 @@ h4{font-size:15px;font-weight:700}
 .wordmark{
   font-family:var(--display);
   font-weight:800;
-  font-size:20px;
+  font-size:1.25rem;
   letter-spacing:-0.02em;
   color:var(--navy);
 }
 .wordmark i{font-style:normal;color:var(--teal-deep)}
 
 .site-nav{display:flex;align-items:center;gap:var(--lg)}
-.site-nav a{color:var(--slate);text-decoration:none;font-size:14px}
+.site-nav a{color:var(--slate);text-decoration:none;font-size:0.875rem}
 .site-nav a:hover{color:var(--navy)}
 .site-nav a.btn{color:var(--white)}
 .site-nav a.btn:hover{color:var(--white)}
 
 /* ---------------------------------------------------------------- 7. hero */
-.hero{padding-top:var(--xxl);padding-bottom:var(--xl)}
+.hero{padding-top:var(--band-y);padding-bottom:var(--xl)}
 .hero-grid{
   display:grid;
   grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
-  gap:var(--xl);
+  gap:var(--gap-major);
   align-items:start;
 }
 .hero h1{margin-bottom:var(--md)}
 .hero h1 em{font-style:normal;color:var(--teal-deep);display:block}
 .hero .lede{margin-bottom:var(--lg)}
 .hero-actions{display:flex;flex-wrap:wrap;gap:var(--sm);margin-bottom:12px}
-.hero-note{font-size:13px;color:var(--slate)}
+.hero-note{font-size:0.8125rem;color:var(--slate)}
 
 /* ---------------------------------------------------------------- 8. demo panel */
 .panel{
@@ -244,7 +255,7 @@ h4{font-size:15px;font-weight:700}
   flex-wrap:wrap;
 }
 .bar-label{
-  font-size:11px;
+  font-size:0.6875rem;
   font-weight:500;
   letter-spacing:.07em;
   text-transform:uppercase;
@@ -252,7 +263,7 @@ h4{font-size:15px;font-weight:700}
 }
 .lang-select{
   font-family:var(--body);
-  font-size:13px;
+  font-size:0.8125rem;
   color:var(--navy);
   background:var(--white);
   border:1px solid var(--line);
@@ -282,7 +293,7 @@ h4{font-size:15px;font-weight:700}
   margin-left:auto;
   background:var(--teal-wash);
   color:var(--teal-deep);
-  font-size:12px;
+  font-size:0.75rem;
   font-weight:500;
   padding:5px 13px;
   border-radius:var(--r-pill);
@@ -295,7 +306,7 @@ h4{font-size:15px;font-weight:700}
 .pane-target{background:#FBFCFD}
 
 .pane-label{
-  font-size:11px;
+  font-size:0.6875rem;
   font-weight:500;
   letter-spacing:.07em;
   text-transform:uppercase;
@@ -311,7 +322,7 @@ h4{font-size:15px;font-weight:700}
   resize:none;
   background:transparent;
   font-family:var(--body);
-  font-size:15px;
+  font-size:0.9375rem;
   line-height:1.6;
   color:var(--navy);
 }
@@ -320,7 +331,7 @@ h4{font-size:15px;font-weight:700}
 
 #output{
   flex:1;
-  font-size:15px;
+  font-size:0.9375rem;
   line-height:1.6;
   white-space:pre-wrap;
   overflow-wrap:anywhere;
@@ -331,7 +342,7 @@ h4{font-size:15px;font-weight:700}
    look like one. Setting the notice apart from real result text keeps
    the distinction visible rather than relying on the wording alone. */
 #output.is-notice{
-  font-size:14px;
+  font-size:0.875rem;
   color:var(--slate);
   border-left:2px solid var(--teal);
   padding-left:12px;
@@ -348,7 +359,7 @@ h4{font-size:15px;font-weight:700}
   gap:var(--sm);
   margin-top:var(--sm);
   min-height:22px;
-  font-size:12px;
+  font-size:0.75rem;
   color:var(--slate);
 }
 .pane-foot .push{margin-left:auto}
@@ -362,7 +373,7 @@ h4{font-size:15px;font-weight:700}
   padding:12px var(--md);
   border-top:1px solid var(--line);
 }
-.status{display:flex;align-items:center;gap:var(--sm);font-size:13px;color:var(--slate)}
+.status{display:flex;align-items:center;gap:var(--sm);font-size:0.8125rem;color:var(--slate)}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);flex-shrink:0}
 .status[data-state="error"] .dot{background:var(--alert)}
 .status[data-state="error"]{color:var(--alert)}
@@ -374,7 +385,7 @@ h4{font-size:15px;font-weight:700}
   border:0;
   border-radius:var(--r-sm);
   font-family:var(--body);
-  font-size:14px;
+  font-size:0.875rem;
   font-weight:500;
   padding:11px 26px;
   cursor:pointer;
@@ -435,7 +446,7 @@ h4{font-size:15px;font-weight:700}
   display:flex;
   align-items:center;
   gap:10px;
-  font-size:14px;
+  font-size:0.875rem;
   font-weight:500;
 }
 .trust svg{width:18px;height:18px;color:var(--teal-deep);flex-shrink:0}
@@ -451,32 +462,32 @@ h4{font-size:15px;font-weight:700}
 .step-mark{
   font-family:var(--display);
   font-weight:800;
-  font-size:12px;
+  font-size:0.75rem;
   letter-spacing:.09em;
   color:var(--teal-deep);
   margin-bottom:12px;
 }
 .step h3{margin-bottom:var(--sm)}
-.step p{color:var(--slate);font-size:14px}
+.step p{color:var(--slate);font-size:0.875rem}
 
 /* ---------------------------------------------------------------- 11. why */
 .why-grid{
   display:grid;
   grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
-  gap:var(--xl);
+  gap:var(--gap-major);
   align-items:start;
 }
-.why-grid .lede{font-size:16px}
+.why-grid .lede{font-size:1rem}
 
 .absent{background:var(--page);border-radius:12px;padding:var(--lg)}
-.absent h3{margin-bottom:var(--md);font-size:15px}
+.absent h3{margin-bottom:var(--md);font-size:0.9375rem}
 .absent li{
   display:flex;
   align-items:flex-start;
   gap:10px;
   padding:11px 0;
   border-top:1px solid var(--line);
-  font-size:14px;
+  font-size:0.875rem;
   color:var(--slate);
 }
 .absent li:first-child{border-top:0;padding-top:0}
@@ -486,7 +497,7 @@ h4{font-size:15px;font-weight:700}
 .ext-grid{
   display:grid;
   grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
-  gap:var(--xl);
+  gap:var(--gap-major);
   align-items:center;
 }
 .ext-claims{display:flex;flex-wrap:wrap;gap:var(--sm);margin:var(--lg) 0}
@@ -494,7 +505,7 @@ h4{font-size:15px;font-weight:700}
   border:1px solid rgba(255,255,255,.24);
   border-radius:var(--r-pill);
   padding:6px 16px;
-  font-size:13px;
+  font-size:0.8125rem;
 }
 .ext-actions{display:flex;flex-wrap:wrap;gap:var(--sm)}
 
@@ -510,7 +521,7 @@ h4{font-size:15px;font-weight:700}
 .lang-grid{
   display:grid;
   grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
-  gap:var(--xl);
+  gap:var(--gap-major);
   align-items:center;
 }
 .lang-chips{display:flex;flex-wrap:wrap;gap:var(--sm);margin-top:var(--lg)}
@@ -519,28 +530,28 @@ h4{font-size:15px;font-weight:700}
   border:1px solid var(--line);
   border-radius:var(--r-pill);
   padding:7px 16px;
-  font-size:14px;
+  font-size:0.875rem;
   display:inline-flex;
   align-items:baseline;
   gap:var(--sm);
 }
 .chip b{font-weight:500}
-.chip span{color:var(--slate);font-size:13px}
+.chip span{color:var(--slate);font-size:0.8125rem}
 .chip code{
   font-family:var(--mono);
-  font-size:11px;
+  font-size:0.6875rem;
   color:var(--slate);
   background:var(--page);
   padding:2px 7px;
   border-radius:var(--xs);
 }
-.chip-note{margin-top:var(--md);font-size:13px;color:var(--slate)}
+.chip-note{margin-top:var(--md);font-size:0.8125rem;color:var(--slate)}
 
 /* ---------------------------------------------------------------- 14. open source */
 .open-grid{
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:var(--xl);
+  gap:var(--gap-major);
   align-items:center;
 }
 .repo{
@@ -549,7 +560,7 @@ h4{font-size:15px;font-weight:700}
   border-radius:12px;
   padding:var(--lg);
   font-family:var(--mono);
-  font-size:13px;
+  font-size:0.8125rem;
 }
 .repo li{
   display:flex;
@@ -569,7 +580,7 @@ h4{font-size:15px;font-weight:700}
   border:1px solid var(--line);
   border-radius:var(--r-pill);
   padding:8px 18px;
-  font-size:14px;
+  font-size:0.875rem;
   color:var(--slate);
 }
 
@@ -587,7 +598,7 @@ h4{font-size:15px;font-weight:700}
   flex-wrap:wrap;
   margin-bottom:var(--lg);
 }
-.footer-nav{display:flex;gap:var(--lg);flex-wrap:wrap;font-size:14px}
+.footer-nav{display:flex;gap:var(--lg);flex-wrap:wrap;font-size:0.875rem}
 .footer-nav a{color:var(--slate);text-decoration:none}
 .footer-nav a:hover{color:var(--navy)}
 /* Brand claims sit above the rule; the copyright sits below it, as the
@@ -599,20 +610,20 @@ h4{font-size:15px;font-weight:700}
   gap:var(--md);
   flex-wrap:wrap;
   margin-bottom:var(--md);
-  font-size:13px;
+  font-size:0.8125rem;
   color:var(--slate);
 }
 
 .footer-base{
   border-top:1px solid var(--line);
   padding-top:var(--md);
-  font-size:13px;
+  font-size:0.8125rem;
   color:var(--slate);
 }
 
 .footer-legal{
   margin:0;
-  font-size:13px;
+  font-size:0.8125rem;
   color:var(--slate);
 }
 .footer-legal a{color:var(--teal-deep);text-decoration:underline;text-underline-offset:2px}
@@ -620,11 +631,11 @@ h4{font-size:15px;font-weight:700}
 
 /* ---------------------------------------------------------------- 17. prose (privacy page) */
 .page-head{padding-top:var(--xxl);padding-bottom:var(--lg)}
-.page-head h1{font-size:clamp(30px,4.4vw,44px);margin-bottom:12px}
+.page-head h1{font-size:clamp(1.875rem,1.35rem + 2.6vw,2.75rem);margin-bottom:12px}
 
 .prose{max-width:74ch;padding-bottom:var(--xxl)}
 .prose h2{
-  font-size:22px;
+  font-size:1.375rem;
   margin-top:var(--xxl);
   margin-bottom:var(--md);
   padding-bottom:var(--sm);
@@ -643,7 +654,7 @@ h4{font-size:15px;font-weight:700}
   content:"";
   position:absolute;
   left:0;
-  top:11px;
+  top:0.7em;
   width:10px;
   height:3px;
   border-radius:2px;
@@ -655,7 +666,7 @@ h4{font-size:15px;font-weight:700}
   width:100%;
   border-collapse:collapse;
   margin-bottom:var(--md);
-  font-size:14px;
+  font-size:0.875rem;
 }
 .prose th,.prose td{
   text-align:left;
@@ -665,7 +676,7 @@ h4{font-size:15px;font-weight:700}
 }
 .prose th{
   font-weight:500;
-  font-size:12px;
+  font-size:0.75rem;
   letter-spacing:.06em;
   text-transform:uppercase;
   color:var(--slate);
@@ -674,7 +685,7 @@ h4{font-size:15px;font-weight:700}
 .prose td{color:#33456B}
 .prose code{
   font-family:var(--mono);
-  font-size:13px;
+  font-size:0.8125rem;
   background:var(--white);
   border:1px solid var(--line);
   border-radius:var(--xs);
@@ -708,7 +719,7 @@ h4{font-size:15px;font-weight:700}
   margin-bottom:var(--xl);
 }
 .toc h2{
-  font-size:12px;
+  font-size:0.75rem;
   letter-spacing:.09em;
   text-transform:uppercase;
   color:var(--slate);
@@ -718,7 +729,7 @@ h4{font-size:15px;font-weight:700}
   font-family:var(--body);
   font-weight:500;
 }
-.toc ol{margin:0;padding-left:var(--lg);color:var(--slate);font-size:14px}
+.toc ol{margin:0;padding-left:var(--lg);color:var(--slate);font-size:0.875rem}
 .toc li{padding:3px 0}
 .toc a{color:var(--slate);text-decoration:none}
 .toc a:hover{color:var(--teal-deep);text-decoration:underline}
@@ -750,20 +761,29 @@ h4{font-size:15px;font-weight:700}
 .error-wrap .trail-static span:nth-child(4){opacity:.2}
 
 /* ---------------------------------------------------------------- 19. responsive */
-@media (max-width:960px){
+/* Mid-range: large tablets and small laptops. The two-column grids still
+   work here, but the hero's 0.82/1.18 split gets too lopsided once the
+   panel narrows, so even it out before collapsing entirely. */
+@media (max-width:1024px){
+  .hero-grid{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .steps .step:last-child{grid-column:1 / -1}
+}
+
+/* Single column. Section padding and type are already fluid by this
+   point, so this block only handles what genuinely has to restructure. */
+@media (max-width:900px){
   .hero-grid,
   .why-grid,
   .ext-grid,
   .open-grid,
-  .lang-grid{grid-template-columns:1fr;gap:var(--lg)}
+  .lang-grid{grid-template-columns:1fr}
 
   .steps{grid-template-columns:1fr}
+  .steps .step:last-child{grid-column:auto}
   .trust{grid-template-columns:1fr}
 
   .site-nav a:not(.btn){display:none}
-
-  .hero{padding-top:var(--xl)}
-  .band{padding-top:var(--xl);padding-bottom:var(--xl)}
 }
 
 @media (max-width:640px){
@@ -778,6 +798,23 @@ h4{font-size:15px;font-weight:700}
   #translate{width:100%}
 
   .prose table{display:block;overflow-x:auto}
+
+  /* Footer rows stop justifying apart and stack left-aligned — at this
+     width space-between pushes two short strings to opposite edges with
+     a gulf between them. */
+  .footer-claims,.footer-base{justify-content:flex-start}
+  .footer-claims{flex-direction:column;gap:var(--xs)}
+
+  .hero-actions .btn{flex:1 1 100%}
+}
+
+/* Very small phones (~360px and under) and anyone at a large browser
+   zoom. Both produce the same narrow effective viewport. */
+@media (max-width:400px){
+  .lang-select{max-width:none;flex:1 1 40%}
+  .panel-bar{gap:var(--sm)}
+  .chip{font-size:0.8125rem;padding:0.375rem 0.75rem}
+  .btn-lg{padding:0.875rem 1.25rem}
 }
 
 /* ---------------------------------------------------------------- 20. motion */
