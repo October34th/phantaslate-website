@@ -147,21 +147,24 @@ and character counter exist to stop honest accidents — a double-click, a
 stuck key — from spending quota, and to show a useful message instead of a
 raw 429.
 
-**The real enforcement is `relay/web_limits.py`**, which belongs in the
-[relay repository](https://github.com/October34th/phantaslate), not this one.
-It's kept here so both sets of numbers can be reviewed side by side. If they
-ever disagree, the server wins and the visitor sees a confusing message —
-keep them in sync.
+**The real enforcement lives in the relay**, in the
+[extension repository](https://github.com/October34th/phantaslate) — the
+relay is one shared server that both the extension and this site call, told
+apart by their `Origin` header and given different caps. There is no
+website-specific limiter; adding one alongside the relay's existing
+`ratelimit.py` would double-charge every request.
+
+If the numbers here and there disagree, the server wins and the visitor sees
+a confusing message. Keep them in sync.
 
 ### Deployment caveat, read before shipping
 
-`web_limits.py` holds counters in process memory. They reset on every deploy
+The relay's `ratelimit.py` holds counters in process memory. They reset on every deploy
 and cold start, and they're per-instance. On a single always-on instance
 that's acceptable and keeps the stateless promise clean — nothing touches a
-disk. On Render's *free* tier, which sleeps idle services, quota effectively
-resets several times a day. Before scaling past one instance, move the
-counters to Redis with TTLs; the store interface is deliberately narrow so
-that swap touches one class.
+disk. Setting `PHANTASLATE_SALT_SECRET` in Render is what stops a redeploy
+handing everyone a fresh quota. Before scaling past one instance, move the
+counters to Redis with TTLs.
 
 ### Identifying visitors without accounts
 
@@ -173,9 +176,23 @@ as one visitor, not as a security control.
 
 Both are disclosed in [`privacy.html`](privacy.html) section 2b.
 
+### Relay environment variables this site depends on
+
+| Variable | Needs to be |
+| --- | --- |
+| `PHANTASLATE_WEB_ORIGINS` | `https://phantaslate.com,https://www.phantaslate.com` |
+| `PHANTASLATE_WEB_DAILY_CHARS` | `5000` (default) |
+| `PHANTASLATE_WEB_MAX_CHARS` | `1000` (default) |
+| `PHANTASLATE_ORIGINS` | unchanged — extension IDs only |
+
+If `PHANTASLATE_WEB_ORIGINS` is wrong, the browser blocks the request before
+the relay sees it and the panel reports a generic network failure rather than
+anything specific. That is the first thing to check if translation stops
+working here but keeps working in the extension.
+
 ### Still open
 
-- [ ] `PRIVACY.md` in the relay repo still describes the extension only.
+- [ ] `PRIVACY.md` in the extension repo still describes the extension only.
       `privacy.html` here has been updated; the two now disagree.
 - [ ] `api.phantaslate.com` stays DNS-only (grey cloud). Turning on the
       Cloudflare proxy would give edge rate limiting for free, but would

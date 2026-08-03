@@ -221,18 +221,30 @@ async function translate() {
 }
 
 async function callRelay(text) {
-  const res = await fetch(RELAY_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Phantaslate-Session': sessionToken()
-    },
-    body: JSON.stringify({
-      text: text,
-      source_lang: fromSel.value,
-      target_lang: toSel.value
-    })
-  });
+  let res;
+  try {
+    res = await fetch(RELAY_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Phantaslate-Session': sessionToken()
+      },
+      body: JSON.stringify({
+        text: text,
+        source_lang: fromSel.value,
+        target_lang: toSel.value
+      })
+    });
+  } catch (networkErr) {
+    /* fetch only rejects for network-level failures: CORS refusal, DNS,
+       offline, TLS. There is no response and no status. Distinguishing
+       this from an HTTP error matters — "the relay said no" and "the
+       browser never let the request out" have completely different
+       fixes. */
+    const err = new Error('unreachable');
+    err.status = 0;
+    throw err;
+  }
 
   if (!res.ok) {
     const err = new Error('relay ' + res.status);
@@ -255,6 +267,10 @@ function showFailure(err) {
   let notice = false;
 
   switch (err.status) {
+    case 0:
+      message = 'Couldn\u2019t reach the translation service. '
+              + 'If this persists, the extension works independently of this page.';
+      break;
     case 429:
       message = err.detail
         || 'Daily limit reached for this browser. The extension gives you 20,000 characters a day \u2014 free, no account.';
