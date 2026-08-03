@@ -66,15 +66,15 @@
         <p class="lede">Your words pass through. Nothing else does. No history, no account, and no record that you were ever here.</p>
 
         <div class="hero-actions">
-          <a class="btn btn-primary btn-lg" href="https://github.com/October34th/phantaslate">Get it on GitHub</a>
+          <a class="btn btn-primary btn-lg" href="https://chromewebstore.google.com/detail/phantaslate-translate-wit/nmekbfmjegpjkpkobippkkbnnlhimijm">Add to Chrome</a>
           <a class="btn btn-outline btn-lg" href="#how">See how it works</a>
         </div>
 
-        <p class="hero-note">Translate here free, 1,000 characters at a time · no account<br><span class="pending">The extension raises that to 5,000 per translation, 20,000 a day</span></p>
+        <p class="hero-note">Translate here free, 5,000 characters at a time · no account<br><span class="pending">Same allowance in the extension — 30,000 characters a day, either way</span></p>
       </div>
 
       <!-- Live translation panel. Limits are enforced by the relay, not
-           here — see assets/js/translate.js and relay/web_limits.py. -->
+           here — see assets/js/translate.js and relay/ratelimit.py. -->
       <div class="panel" id="demo">
 
         <div class="panel-bar">
@@ -90,16 +90,16 @@
           <label class="bar-label" for="to">To</label>
           <select class="lang-select" id="to" aria-label="Target language"></select>
 
-          <span class="cap-pill">Free · 1,000 characters</span>
+          <span class="cap-pill">Free · 5,000 characters</span>
         </div>
 
         <div class="panes" id="panes">
           <div class="pane pane-source">
             <label class="pane-label" for="source">Your text</label>
-            <textarea id="source" class="cjk-any" rows="4" maxlength="1000" placeholder="Type or paste text to translate…"></textarea>
+            <textarea id="source" class="cjk-any" rows="4" maxlength="5000" placeholder="Type or paste text to translate…"></textarea>
             <div class="pane-foot">
               <button class="linkbtn" id="clear" type="button" hidden>Clear</button>
-              <span class="push" id="count">0 / 1000</span>
+              <span class="push" id="count">0 / 5000</span>
             </div>
           </div>
 
@@ -236,13 +236,13 @@
         <div class="ext-claims">
           <span class="claim">Free forever, no account, ever</span>
           <span class="claim">Chrome and Chromium browsers</span>
-          <span class="claim">5,000 characters per translation</span>
-          <span class="claim claim-pending">Chrome Web Store listing pending</span>
+          <span class="claim">30,000 characters a day</span>
+          <span class="claim">On the Chrome Web Store</span>
           <span class="claim">Self-hostable relay</span>
         </div>
 
         <div class="ext-actions">
-          <a class="btn btn-primary btn-lg" href="https://github.com/October34th/phantaslate">Install from GitHub</a>
+          <a class="btn btn-primary btn-lg" href="https://chromewebstore.google.com/detail/phantaslate-translate-wit/nmekbfmjegpjkpkobippkkbnnlhimijm">Add to Chrome</a>
           <a class="btn btn-onnavy btn-lg" href="https://github.com/October34th/phantaslate/releases">Latest release</a>
         </div>
       </div>

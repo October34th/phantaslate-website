@@ -137,14 +137,14 @@
         <li>A random identifier your browser generates and keeps for the current tab session. It is not derived from anything about you or your device, it carries no personal information, it is cleared when you close the tab, and you can reset it at any time by clearing site data.</li>
       </ul>
       <p>The second exists so that several people sharing one internet connection — an office, a campus, a mobile network — are not counted as a single visitor. It is combined with the IP hash purely to produce a counter key. Neither value is linked to the text you translate, and neither is used to build a profile.</p>
-      <p>Website translation is capped at 1,000 characters per request and 5,000 characters per day. These limits exist to keep a free service affordable, not to gather information about you.</p>
+      <p>Translation is capped at 5,000 characters per request and 30,000 characters per day. The same limits apply on the website and in the extension. These limits exist to keep a free service affordable, not to gather information about you.</p>
       <div class="callout">
         <p><strong>Same third-party disclosure applies.</strong> Text translated on this website reaches DeepSeek in exactly the same way as text translated in the extension, and is subject to DeepSeek's own data handling practices. See the disclosure in section 2 — it is not a different arrangement because it happens on a web page.</p>
       </div>
       <p>The website itself carries no analytics, no advertising, no tracking scripts, and makes no third-party requests. Fonts, images, styles and scripts are all served from phantaslate.com.</p>
 
       <h2 id="s3">3. Abuse prevention</h2>
-      <p>To keep a free, account-free service usable, Phantaslate applies a daily usage cap — a baseline of 20,000 characters per day, which may be reduced during periods of high demand or cost pressure.</p>
+      <p>To keep a free, account-free service usable, Phantaslate applies a daily usage cap — a baseline of 30,000 characters per day, which may be reduced during periods of high demand or cost pressure.</p>
       <p>Enforcing a limit without accounts requires some way to distinguish one user from another. Phantaslate does this in the least identifying way we could design:</p>
       <ul class="bullets">
         <li>Your IP address is combined with a rotating salt and hashed. The resulting hash is used as a short-lived counter key. <strong>The raw IP address is not stored</strong>, and because the salt rotates, hashes cannot be correlated across time periods.</li>

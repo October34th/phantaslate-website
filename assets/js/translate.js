@@ -13,17 +13,21 @@
    key, an impatient retry — from spending quota, and to show a useful
    message instead of a raw 429.
 
-   The real limits live in the relay: see relay/web_limits.py in this
-   repository, which is written to be dropped into the phantaslate relay
-   repo. If the numbers here and there ever disagree, the server wins and
-   the visitor sees a confusing message. Keep them in sync.
+   The real limits live in the relay: see relay/ratelimit.py, and the
+   PHANTASLATE_* environment variables that configure it. If the numbers
+   here and there ever disagree, the server wins and the visitor sees a
+   confusing message. Keep them in sync.
    ===================================================================== */
 
 const RELAY_URL   = 'https://api.phantaslate.com/translate';
 
-const MAX_CHARS   = 1000;   // per request — must match MAX_CHARS_PER_REQUEST
-const DAILY_CHARS = 5000;   // per day     — must match DAILY_CHAR_CAP
-const MIN_GAP_MS  = 1200;   // client-side debounce between submissions
+/* Business plan v4.0 §4: one cap, both surfaces. The website used to be
+   capped harder on the theory that it was a funnel toward the extension.
+   That was wrong for phone and tablet users, who have no extension
+   available — for them this page is the product, not a preview of it. */
+const MAX_CHARS   = 5000;    // per request — must match PHANTASLATE_WEB_MAX_CHARS
+const DAILY_CHARS = 30000;   // per day     — must match PHANTASLATE_WEB_DAILY_CHARS
+const MIN_GAP_MS  = 1200;    // client-side debounce between submissions
 
 /* The nine supported languages, CJKV first — the order reflects what the
    product is built for, not alphabetical convenience. */
@@ -204,9 +208,10 @@ async function translate() {
     }
 
     if (result.source_mismatch) {
-      setStatus('Translated \u2014 the text may not be in the language you picked', 'notice');
+      setStatus('Translated \u2014 the text may not be in the language you picked'
+                + quotaSuffix(result._quota), 'notice');
     } else {
-      setStatus('Translated \u00b7 nothing stored', 'idle');
+      setStatus('Translated \u00b7 nothing stored' + quotaSuffix(result._quota), 'idle');
     }
 
     copyBtn.hidden = false;
@@ -255,13 +260,38 @@ async function callRelay(text) {
     throw err;
   }
 
-  return res.json();
+  const body = await res.json();
+  body._quota = readQuota(res);
+  return body;
+}
+
+/* The relay reports remaining quota on every response. Returns null when
+   the headers are absent — an older relay build, or a self-hosted one —
+   so the UI shows nothing rather than inventing a number. */
+function readQuota(res) {
+  const remaining = parseInt(res.headers.get('X-RateLimit-Remaining'), 10);
+  const limit     = parseInt(res.headers.get('X-RateLimit-Limit'), 10);
+  if (!Number.isFinite(remaining) || !Number.isFinite(limit) || limit <= 0) return null;
+  return { remaining: remaining, limit: limit };
+}
+
+/* Only mention the number once it starts to matter. Announcing "29,847
+   left" after translating one line turns a private tool into a metered
+   one for no benefit; below a quarter remaining it's genuinely useful. */
+function quotaSuffix(quota) {
+  if (!quota) return '';
+  if (quota.remaining > quota.limit * 0.25) return '';
+  return ' \u00b7 ' + quota.remaining.toLocaleString() + ' left today';
 }
 
 /* Limit responses aren't errors from the visitor's point of view — they
    asked a reasonable thing and the answer is "not right now". Say so
-   plainly, and point at the extension, which is where the real allowance
-   lives. */
+   plainly.
+
+   Note what is NOT here any more: this used to tell people the extension
+   had a larger allowance. Under v4.0's equal caps that is false, and a
+   false claim in a rate-limit message is worse than no claim — it sends
+   someone to install something that won't help. */
 function showFailure(err) {
   let message;
   let notice = false;
@@ -269,19 +299,28 @@ function showFailure(err) {
   switch (err.status) {
     case 0:
       message = 'Couldn\u2019t reach the translation service. '
-              + 'If this persists, the extension works independently of this page.';
+              + 'Check your connection and try again.';
       break;
     case 429:
+      // The relay distinguishes "you're out" from "this network is out",
+      // and says which. Prefer its wording over a guess made here.
       message = err.detail
-        || 'Daily limit reached for this browser. The extension gives you 20,000 characters a day \u2014 free, no account.';
+        || 'Daily limit reached for this browser. It resets at midnight UTC.';
       notice = true;
       break;
     case 413:
-      message = 'That text is over the ' + MAX_CHARS + '-character limit for this page.';
+      message = 'That text is over the ' + MAX_CHARS.toLocaleString()
+              + '-character limit for a single translation.';
       notice = true;
       break;
     case 503:
-      message = 'The service is at capacity right now. Try again shortly, or install the extension.';
+      /* Two different causes arrive as 503: the shared daily budget is
+         spent (resets at midnight), or the relay is momentarily at
+         capacity (retrying shortly works). Only the relay knows which,
+         so its message is used when present. Suggesting the extension
+         here would be pointless — both surfaces share the same budget. */
+      message = err.detail
+        || 'The service is busy right now. Please try again shortly.';
       notice = true;
       break;
     default:
