@@ -364,6 +364,10 @@ h4{font-size:0.9375rem;font-weight:700}
 }
 .pane-foot .push{margin-left:auto}
 
+/* Character counter turns teal as the limit approaches, so hitting it
+   isn't a surprise. */
+#count.is-near{color:var(--teal-deep);font-weight:500}
+
 .panel-foot{
   display:flex;
   align-items:center;

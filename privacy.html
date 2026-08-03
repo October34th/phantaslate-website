@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0D2045">
 
 <title>Privacy Policy — Phantaslate</title>
-<meta name="description" content="Exactly what happens to your data when you use Phantaslate. No accounts, no history, no logging — and a plain statement of what we don't control.">
+<meta name="description" content="Exactly what happens to your data when you use Phantaslate, in the extension and on this site. No accounts, no history, no logging — and a plain statement of what we don't control.">
 
 <link rel="canonical" href="https://phantaslate.com/privacy.html">
 
@@ -55,7 +55,7 @@
     <p class="eyebrow">Privacy policy</p>
     <h1>What happens to your data</h1>
     <p class="muted small">
-      Effective 31 July 2026 · Applies to the Phantaslate browser extension for Chrome and Chromium-based browsers
+      Effective 2 August 2026 · Applies to the Phantaslate browser extension and to translation performed on phantaslate.com
     </p>
   </div>
 
@@ -69,7 +69,7 @@
           <li>No account is required, and none exists.</li>
           <li>No translation history is kept — not on your device, not on our server.</li>
           <li>No advertising, no analytics, no tracking, no profiling.</li>
-          <li>The text you submit is sent to a machine-translation provider in order to translate it. This is disclosed in full below.</li>
+          <li>The text you submit is sent to a machine-translation provider in order to translate it. This is disclosed in full below, and applies equally to the extension and to this website.</li>
           <li>The extension is free and open source. The claims on this page can be verified by reading the code.</li>
         </ul>
         <p>This document describes exactly what happens to your data. If anything here is unclear or appears to contradict the source code, please open an issue on GitHub.</p>
@@ -80,6 +80,7 @@
         <ol>
           <li><a href="#s1">What Phantaslate does not collect</a></li>
           <li><a href="#s2">What is transmitted, and to whom</a></li>
+          <li><a href="#s2b">Translating on this website</a></li>
           <li><a href="#s3">Abuse prevention</a></li>
           <li><a href="#s4">Data stored on your device</a></li>
           <li><a href="#s5">Permissions and why they are needed</a></li>
@@ -126,6 +127,21 @@
         <li><strong>Render</strong> hosts the relay. As with any hosting provider, Render may generate transient operational and network-level logs as part of running the service. Phantaslate does not create, request, or retain application logs of translation content.</li>
         <li><strong>Cloudflare</strong> provides DNS resolution for the <code>phantaslate.com</code> domain. The <code>api</code> subdomain is configured as DNS-only, meaning Cloudflare resolves the address but does not proxy or inspect the traffic itself.</li>
       </ul>
+
+      <h2 id="s2b">2b. Translating on this website</h2>
+      <p>The translation panel on the phantaslate.com homepage sends text to the same relay the extension uses, and that text is handled the same way: held in memory for the length of the request, never written to disk, to a database, or to a log.</p>
+      <p>The website differs from the extension in one respect, and it is worth stating rather than glossing over. The extension identifies itself with a browser-extension origin and an install token. A public web page has neither, and anyone can send requests to a public endpoint. Keeping the site free and open therefore requires counting usage, and counting usage requires telling one visitor from another.</p>
+      <p>Two signals are used, both short-lived:</p>
+      <ul class="bullets">
+        <li>A salted, rotating hash of your IP address, exactly as described in section 3. <strong>The raw IP address is not stored.</strong></li>
+        <li>A random identifier your browser generates and keeps for the current tab session. It is not derived from anything about you or your device, it carries no personal information, it is cleared when you close the tab, and you can reset it at any time by clearing site data.</li>
+      </ul>
+      <p>The second exists so that several people sharing one internet connection — an office, a campus, a mobile network — are not counted as a single visitor. It is combined with the IP hash purely to produce a counter key. Neither value is linked to the text you translate, and neither is used to build a profile.</p>
+      <p>Website translation is capped at 1,000 characters per request and 5,000 characters per day. These limits exist to keep a free service affordable, not to gather information about you.</p>
+      <div class="callout">
+        <p><strong>Same third-party disclosure applies.</strong> Text translated on this website reaches DeepSeek in exactly the same way as text translated in the extension, and is subject to DeepSeek's own data handling practices. See the disclosure in section 2 — it is not a different arrangement because it happens on a web page.</p>
+      </div>
+      <p>The website itself carries no analytics, no advertising, no tracking scripts, and makes no third-party requests. Fonts, images, styles and scripts are all served from phantaslate.com.</p>
 
       <h2 id="s3">3. Abuse prevention</h2>
       <p>To keep a free, account-free service usable, Phantaslate applies a daily usage cap — a baseline of 20,000 characters per day, which may be reduced during periods of high demand or cost pressure.</p>

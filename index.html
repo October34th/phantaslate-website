@@ -70,12 +70,11 @@
           <a class="btn btn-outline btn-lg" href="#how">See how it works</a>
         </div>
 
-        <p class="hero-note">Free forever · open source · nothing to sign up for<br><span class="pending">Chrome Web Store listing is on the way</span></p>
+        <p class="hero-note">Translate here free, 1,000 characters at a time · no account<br><span class="pending">The extension raises that to 5,000 per translation, 20,000 a day</span></p>
       </div>
 
-      <!-- Interactive demo panel. Fully usable — type, swap languages,
-           clear, copy — but it never produces a translation and never
-           makes a network request. See assets/js/demo.js. -->
+      <!-- Live translation panel. Limits are enforced by the relay, not
+           here — see assets/js/translate.js and relay/web_limits.py. -->
       <div class="panel" id="demo">
 
         <div class="panel-bar">
@@ -91,16 +90,16 @@
           <label class="bar-label" for="to">To</label>
           <select class="lang-select" id="to" aria-label="Target language"></select>
 
-          <span class="cap-pill">Demo — 500 characters</span>
+          <span class="cap-pill">Free · 1,000 characters</span>
         </div>
 
         <div class="panes" id="panes">
           <div class="pane pane-source">
             <label class="pane-label" for="source">Your text</label>
-            <textarea id="source" class="cjk-any" rows="4" maxlength="500" placeholder="Type or paste text to try the panel…"></textarea>
+            <textarea id="source" class="cjk-any" rows="4" maxlength="1000" placeholder="Type or paste text to translate…"></textarea>
             <div class="pane-foot">
               <button class="linkbtn" id="clear" type="button" hidden>Clear</button>
-              <span class="push" id="count">0 / 500</span>
+              <span class="push" id="count">0 / 1000</span>
             </div>
           </div>
 
@@ -110,7 +109,7 @@
 
           <div class="pane pane-target">
             <p class="pane-label">Translation</p>
-            <div id="output" class="cjk-any" data-empty="Nothing yet." aria-live="polite"></div>
+            <div id="output" class="cjk-any" data-empty="Your translation appears here." aria-live="polite"></div>
             <div class="pane-foot">
               <span id="detected"></span>
               <button class="linkbtn push" id="copy" type="button" hidden>Copy</button>
@@ -120,7 +119,7 @@
 
         <div class="panel-foot">
           <p class="status" id="status" data-state="idle">
-            <span class="dot"></span><span id="status-text">Demo panel · nothing sent, nothing stored</span>
+            <span class="dot"></span><span id="status-text">Nothing stored · nothing logged</span>
           </p>
           <button id="translate" type="button">Translate</button>
         </div>
@@ -375,7 +374,7 @@
   </div>
 </footer>
 
-<script src="assets/js/demo.js"></script>
+<script src="assets/js/translate.js"></script>
 
 </body>
 </html>

@@ -10,7 +10,7 @@
   X-Frame-Options: DENY
   Referrer-Policy: no-referrer
   Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
-  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self' https://api.phantaslate.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none'
 
 # Notes on the policy above:
 #
@@ -25,10 +25,10 @@
 #   machine and be blocked in production — an easy way to ship something
 #   silently broken.
 #
-#   connect-src is 'none'. The demo panel is interactive but has no
-#   network path — assets/js/demo.js contains no fetch at all. This header
-#   is the second lock: wiring the panel to the relay means changing the
-#   script AND this line, both on purpose.
+#   connect-src permits api.phantaslate.com and nothing else. The
+#   translation panel is live; this is the only outbound destination the
+#   browser will allow, so a compromised or mistaken script cannot send
+#   text anywhere but the relay.
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable

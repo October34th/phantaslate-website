@@ -108,35 +108,83 @@ Every push to `main` redeploys.
 
 ---
 
-## The demo panel translates nothing
+## Live translation, and its limits
 
-The hero panel is fully interactive — pick languages, swap them, type,
-clear, copy. Everything that looks clickable is clickable.
+The hero panel translates for real against `api.phantaslate.com`.
 
-**It never translates.** Every submission returns the same notice pointing
-at the extension. There is deliberately no phrasebook of canned results: a
-canned result *is* a translation result from the visitor's side, and someone
-who types a word and gets the right answer back has been told this page
-translates, whatever a comment in the source says.
+| Limit | Value | Keyed on |
+| --- | --- | --- |
+| Per request | 1,000 characters | — |
+| Per browser, per day | 5,000 characters | IP hash + session token |
+| Burst | 5/minute, 30/hour | IP hash + session token |
+| **Per IP, per day** | **25,000 characters** | **IP hash only** |
+| Per IP, per hour | 90 requests | IP hash only |
+| Global circuit breaker | 5,000,000 characters/day | — |
 
-The notice also renders differently from result text would — smaller, muted,
-teal rule down the left — so the distinction survives someone skim-reading.
+The IP-only tier is the one that matters. The session token is
+client-supplied, so clearing `sessionStorage` hands out a fresh allowance —
+without a token-independent ceiling the daily cap is decorative and a
+five-line script gets unlimited quota from one address. It's set to 5× the
+per-browser cap so genuine shared connections (offices, campuses, mobile
+carrier NAT) aren't punished for having many real users behind one address.
 
-`assets/js/demo.js` contains no `fetch`, no relay URL, and no code path that
-reaches the network. That's not a flag someone could flip by accident; the
-capability isn't in the file. `_headers` backs it with `connect-src 'none'`,
-so restoring a real translator means changing both the script and the CSP on
-purpose.
+Both counters must pass before either increments, so a request rejected by
+one tier doesn't silently consume quota from the other.
 
-**Why not just wire it up:** the relay's origin check, character cap and
-abuse handling were built around the extension, which sends a known
-extension origin and carries an install token. A public web page has
-neither. Before this panel could work for real:
+The global ceiling is roughly **$0.60/day, ~$18/month worst case** at DeepSeek
+pricing. It's the number that protects against a genuinely bad day, and the
+first one to revisit if the site gets popular.
 
-- [ ] `phantaslate.com` added to `PHANTASLATE_ORIGINS`
-- [ ] its own character cap, separate from the extension's 20,000/day
-- [ ] its own rate limiting, since there's no install token to key on
-- [ ] `connect-src` in `_headers` loosened to allow `api.phantaslate.com`
+Website limits are deliberately well below the extension's 5,000/translation
+and 20,000/day. The site's job is to prove the thing works and send people to
+the extension; if the web version were nearly as generous, installing would
+stop being the obvious next step.
+
+### The throttling in `translate.js` is courtesy, not security
+
+Everything client-side can be bypassed with devtools or curl. The debounce
+and character counter exist to stop honest accidents — a double-click, a
+stuck key — from spending quota, and to show a useful message instead of a
+raw 429.
+
+**The real enforcement is `relay/web_limits.py`**, which belongs in the
+[relay repository](https://github.com/October34th/phantaslate), not this one.
+It's kept here so both sets of numbers can be reviewed side by side. If they
+ever disagree, the server wins and the visitor sees a confusing message —
+keep them in sync.
+
+### Deployment caveat, read before shipping
+
+`web_limits.py` holds counters in process memory. They reset on every deploy
+and cold start, and they're per-instance. On a single always-on instance
+that's acceptable and keeps the stateless promise clean — nothing touches a
+disk. On Render's *free* tier, which sleeps idle services, quota effectively
+resets several times a day. Before scaling past one instance, move the
+counters to Redis with TTLs; the store interface is deliberately narrow so
+that swap touches one class.
+
+### Identifying visitors without accounts
+
+A salted rotating IP hash (raw IP never stored, salt rotates daily) combined
+with a random session token the browser generates. The token isn't derived
+from anything about the visitor, clears when the tab closes, and is trivially
+resettable — it exists so several people behind one office NAT aren't counted
+as one visitor, not as a security control.
+
+Both are disclosed in [`privacy.html`](privacy.html) section 2b.
+
+### Still open
+
+- [ ] `PRIVACY.md` in the relay repo still describes the extension only.
+      `privacy.html` here has been updated; the two now disagree.
+- [ ] `api.phantaslate.com` stays DNS-only (grey cloud). Turning on the
+      Cloudflare proxy would give edge rate limiting for free, but would
+      make the policy's "does not proxy or inspect the traffic" line false
+      and put TLS termination for user text on Cloudflare. Deliberate
+      trade, currently declined.
+- [ ] No CAPTCHA, per the business plan. Turnstile is the fallback if abuse
+      becomes real — but it's a third-party request, which the site
+      currently has none of.
 
 ## Where the site sends people
 
