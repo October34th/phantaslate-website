@@ -203,13 +203,8 @@ async function translate() {
     output.textContent = result.translation;
     applyPaneLanguages(result.detected_code);
 
-    /* The relay's field is `detected_lang` (see TranslateResponse in
-       relay/main.py). This read used to be `detected_language`, which is a key
-       that has never existed on the response — so the line silently never
-       rendered. Undefined property reads don't throw, which is why it looked
-       like a detection failure rather than a typo. */
-    if (result.detected_lang && fromSel.value === 'auto') {
-      detected.textContent = 'Detected: ' + result.detected_lang;
+    if (result.detected_language && fromSel.value === 'auto') {
+      detected.textContent = 'Detected: ' + result.detected_language;
     }
 
     if (result.source_mismatch) {
@@ -327,6 +322,17 @@ function showFailure(err) {
       message = err.detail
         || 'The service is busy right now. Please try again shortly.';
       notice = true;
+      break;
+    case 502:
+    case 500:
+      /* The relay knows why this failed — an empty completion, a truncated
+         one, an unreachable provider — and its wording is more use than a
+         generic line. The extension has always shown err.detail here; the
+         website used to fall through to the default below and tell people
+         "try again in a moment" for faults that retrying won't fix. */
+      message = err.detail
+              || 'The translation service had a problem with that request. '
+               + 'Try again in a moment.';
       break;
     default:
       message = 'That request didn\u2019t go through. Try again in a moment.';
